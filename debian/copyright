@@ -1,0 +1,164 @@
+This package was debianized by Ryszard Lach <rla@debian.org> on
+Thu,  3 Jan 2002 16:18:27 +0100.
+
+It was downloaded from 
+	ftp://ftp.joedog.org/pub/siege
+
+Upstream Authors: 
+	Jeffrey Fulmer <jdfulmer@armstrong.com>, See AUTHORS file for more.
+
+Copyright: 
+
+    Copyright (C) 2000-2009 Jeffrey Fulmer <jeff@joedog.org>
+
+License:
+
+    This package is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+ 
+    This package is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this package; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+    In addition, as a special exception, the copyright holders give
+    permission to link the code of portions of this program with the
+    OpenSSL library under certain conditions as described in each
+    individual source file, and distribute linked combinations
+    including the two.
+
+    You must obey the GNU General Public License in all respects
+    for all of the code used other than OpenSSL.  If you modify
+    file(s) with this exception, you may extend this exception to your
+    version of the file(s), but you are not obligated to do so.  If you
+    do not wish to do so, delete this exception statement from your
+    version.  If you delete this exception statement from all source
+    files in the program, then also delete it here.
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL-2'.
+
+src/base64.c and src/base64.h are:
+
+    Copyright (C) 1995 - 1999 Kungliga Tekniska Högskolan
+
+and is licensed as follows:
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+  
+    1. Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+  
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+  
+    3. Neither the name of the Institute nor the names of its contributors
+       may be used to endorse or promote products derived from this software
+       without specific prior written permission.
+  
+    THIS SOFTWARE IS PROVIDED BY THE INSTITUTE AND CONTRIBUTORS ``AS IS'' AND
+    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+    ARE DISCLAIMED.  IN NO EVENT SHALL THE INSTITUTE OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+    OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+    OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+    SUCH DAMAGE.
+ 
+src/cookie.c is:
+
+    Copyright (C) 2000-2007 Jeffrey Fulmer <jeff@joedog.org> et al.
+    Copyright (C) 2002 the University of Kanas.
+
+and is licensed under the GPL version 2, see above.
+
+src/date.c is:
+
+    Copyright (C) 2007 Jeffrey Fulmer <jeff@joedog.org> et al.
+    Copyright (C) 1998 - 2006 Daniel Stenberg <daniel@haxx.se> et al.
+
+and is licensed under the GPL version 2, see above.
+
+src/install.sh is:
+
+    Copyright (C) 1991 Massachusetts Institute of Technology.
+
+and is licensed as follows:
+
+    Permission to use, copy, modify, distribute, and sell this software and its
+    documentation for any purpose is hereby granted without fee, provided that
+    the above copyright notice appear in all copies and that both that
+    copyright notice and this permission notice appear in supporting
+    documentation, and that the name of M.I.T. not be used in advertising or
+    publicity pertaining to distribution of the software without specific,
+    written prior permission.  M.I.T. makes no representations about the
+    suitability of this software for any purpose.  It is provided "as is"
+    without express or implied warranty.
+
+utils/bombardment.in is:
+
+    Copyright (C) 2001 Peter J. Hutnick.
+
+and is licensed under the GPL version 2, see above.
+
+utils/install-sh is:
+
+    Copyright (C) 1994 X Consortium.
+
+and is licensed as follows:
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to
+    deal in the Software without restriction, including without limitation the
+    rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+    sell copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+    X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+    AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNEC-
+    TION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    Except as contained in this notice, the name of the X Consortium shall not
+    be used in advertising or otherwise to promote the sale, use or other deal-
+    ings in this Software without prior written authorization from the X Consor-
+    tium.
+
+lib/joedog/sprintf.c is:
+
+    Copyright (C) 1999 Mark Martinec <mark.martinec@ijs.si>
+
+and is licensed as follows:
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the "Frontier Artistic License" which comes
+    with this Kit.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty
+    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the Frontier Artistic License for more details.
+
+The Debian packaging is:
+
+    Copyright (C) 2007 Jose Carlos Medeiros <debian@psabs.com.br>
+    Copyright (C) 2008 Tristan Greaves <tristan@extricate.org>
+
+and is licensed under the GPL version 2, see above.

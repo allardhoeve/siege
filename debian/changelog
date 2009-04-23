@@ -1,0 +1,221 @@
+siege (2.68-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/control
+    - Builds-Depends: Removed automake, autotools-dev, quilt, ed, cdbs.
+  * debian/patches
+    - Removed autotools_upgrade.patch (Upstream has upgraded automake).
+    - Removed etc_siegerc.patch (Upstream has included).
+    - Removed fix_cl_arguments.patch (Upstream fixed bug differently).
+    - Removed fix_http_headers.patch (Upstream has included).
+    - Removed fix_man_pages.patch (Upstream has included).
+  * Fixed lintian warning: ancient-libtool-usage.
+
+ -- Tristan Greaves <tristan@extricate.org>  Thu, 23 Apr 2009 14:10:13 +0100
+
+siege (2.67-3) unstable; urgency=low
+
+  * Actual fix of $HOME/.siegerc build breakage problem.
+    (Closes: #321816)
+  * Force autoreconf on package build to ensure same behaviour across all
+    build hosts.  Patches streamlined with this in mind.
+  * debian/control
+    - Build-Depends: use automake instead of automake1.9.
+
+ -- Tristan Greaves <tristan@extricate.org>  Mon, 30 Mar 2009 15:59:17 +0100
+
+siege (2.67-2) unstable; urgency=low
+
+  * Fix regression of $HOME/.siegerc attempt breaking builds on some
+    platforms. (Closes: #321816)
+
+ -- Tristan Greaves <tristan@extricate.org>  Sat, 28 Mar 2009 19:04:45 +0000
+
+siege (2.67-1) unstable; urgency=low
+
+  * New maintainer. (Closes: #521034)
+  * New upstream release.
+  * Added fix_cl_arguments.patch to stop unknown command line arguments
+    segfaulting program. (Closes: #521029)
+  * Added autotools_upgrade.patch to patch source to latest autotools
+    usage (Was using deprecated automake1.6)
+  * debian/control:
+    - Standards-Version: 3.8.1
+    - Fixed lintian warning: debhelper-but-no-misc-depends
+  * debian/copyright brought up to date.
+  * Fixed lintian warning: quilt-patch-missing-description
+  * Fixed lintian warning: hyphen-used-as-minus-sign
+  * Fixed lintian warning: patch-system-but-direct-changes-in-diff
+
+ -- Tristan Greaves <tristan@extricate.org>  Tue, 24 Mar 2009 21:34:16 +0000
+
+siege (2.66-2) unstable; urgency=low
+
+  * debian/control:
+    - Added Build-Depends: automake1.9. (Closes: #458266)
+    - Build-Depends: libssl-dev (>= 0.9.8) instead libssl-dev (>= 0.9.8-1)
+  * debian/copyright:
+    - Added SSL license mention. (Closes: #463945)
+  * Fixed inconsistent man page urls_txt.5.in in fix_man_pages.patch.
+    (Closes: #414159)
+  * Added fix_bashism.patch to fix bashism in bombardment script.
+    (Closes: #465357)
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Sat, 22 Mar 2008 20:32:10 -0300
+
+siege (2.66-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #403201)
+  * New mantainer. (Closes: #401680)
+  * Updated package to use cdbs.
+  * debian/watch: Added.
+  * debian/control:
+    - Added "Homepage:" pseudo-header as Reference 1.14.6.
+    - Standards-Version: 3.7.3
+    - Added Build-Depends: cdbs, autotools-dev, quilt
+
+ -- Jose Carlos Medeiros <debian@psabs.com.br>  Sat, 03 Nov 2007 05:37:51 +0000
+
+siege (2.65-4) unstable; urgency=low
+
+  * Orphaning package (#401680), changed maintainger to QA Group.
+
+
+ -- Ryszard Lach <rla@debian.org>  Tue,  5 Dec 2006 12:46:55 +0100
+
+siege (2.65-3) unstable; urgency=medium
+
+  * Applied patch provided by Christian Aichinger and Michael Ablassmeier.
+    Closes: #385295.
+
+ -- Ryszard Lach <rla@debian.org>  Wed,  27 Sep 2006 08:15:40 +0200
+
+siege (2.65-2) unstable; urgency=low
+
+  * siege2csv.pl renamed to siege2csv
+  * Fixed debian/rules. Closes #376669.
+
+ -- Ryszard Lach <rla@debian.org>  Tue,  4 Jul 2006 14:32:37 +0200
+
+siege (2.65-1) unstable; urgency=low
+
+  * New upstream - beta version. Closes #355918.
+  * minor fixes in manual pages
+
+
+ -- Ryszard Lach <rla@debian.org>  Sun,  5 Mar 2006 22:16:27 +0100
+
+siege (2.61-3) unstable; urgency=low
+
+  * Add libssl-dev version (>= 0.9.8-1) to build-depends.
+
+ -- Ryszard Lach <rla@debian.org>  Mon, 10 Oct 2005 12:42:28 +0200
+
+siege (2.61-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * add single quotes to the EOF in utils/siege.config.in (closes:
+    #323684)
+  * apply patch from Robert Waldner <rw+bug@coretec.at> to fix construction of
+    http headers (closes: #329182)
+  * install sample siegerc to /etc/siege and use that if no ~/.siegerc
+    exists. use patch from tollef fog heen. (closes: #321816)
+
+ -- Jonas Meurer <mejo@debian.org>  Mon,  3 Oct 2005 01:32:10 +0200
+
+siege (2.61-2) unstable; urgency=low
+
+  * Fixed siege.config scropt. Closes: #306952.
+
+ -- Ryszard Lach <rla@debian.org>  Fri,  5 Aug 2005 08:53:42 +0200
+
+siege (2.61-1) unstable; urgency=low
+
+  * Added Debian revision. Closes: #303163.
+
+ -- Ryszard Lach <rla@debian.org>  Wed, 13 Apr 2005 17:57:05 +0200
+
+siege (2.61) unstable; urgency=low
+
+  * New upstream release. Closes: #292268.
+
+ -- Ryszard Lach <rla@debian.org>  Sun, 13 Feb 2005 19:04:35 +0100
+
+siege (2.60b1-4) unstable; urgency=low
+
+  * Fixed segfault while running without .siegerc file. Closes: #270707.
+
+ -- Ryszard Lach <rla@debian.org>  Sat, 11 Dec 2004 23:36:56 +0100
+
+siege (2.60b1-3) unstable; urgency=low
+
+  * Fixed debian/rules. Closes: #284869.
+
+ -- Ryszard Lach <rla@debian.org>  Sat, 11 Dec 2004 23:17:18 +0100
+
+siege (2.60b1-2) unstable; urgency=low
+
+  * Adopting my old package (again). Closes: #268739
+  * Added notice about HTTPS support into package description. Closes: #270711
+  * Removed 'Suggests: scout'; it's not supported, so I'll won't package it.
+
+ -- Ryszard Lach <rla@debian.org>  Wed,  8 Sep 2004 23:49:15 +0200
+
+siege (2.60b1-1.1) unstable; urgency=low
+
+  * NMU during BSP
+  * Add build dependency on ed. Closes: #238376
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sat, 17 Apr 2004 11:10:19 +0200
+
+siege (2.60b1-1) unstable; urgency=low
+
+  * New upstream release. Closes: #221300,#220147.
+
+  * Fixed copyright file. Closes: #202391.
+
+  * Added 'Conflicts: siege-ssl'.
+
+ -- Ryszard Lach <rla@debian.org>  Mon, 15 Mar 2004 20:17:50 +0100
+
+siege (2.55-2) unstable; urgency=low
+
+  * Added 'Suggests: scout'
+
+ -- Ryszard Lach <rla@debian.org>  Mon,  9 Sep 2002 20:51:58 +0200
+
+siege (2.55-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Ryszard Lach <rla@debian.org>  Mon,  9 Sep 2002 18:34:07 +0200
+
+siege (2.09-4) unstable; urgency=low
+
+  * Minor changes in building scripts.
+  
+  * Added siege-ssl to 'Conflicts' control field.
+
+ -- Ryszard Lach <rla@debian.org>  Wed, 30 Jan 2002 09:35:24 +0100
+
+siege (2.09-3) unstable; urgency=low
+
+  * Fixed Description field formatting. Closes: #128225.
+
+ -- Ryszard Lach <rla@debian.org>  Tue, 15 Jan 2002 13:56:00 +0100
+
+siege (2.09-2) unstable; urgency=low
+
+  * Updated config.guess and config.sub files. Closes: #128312.
+
+ -- Ryszard Lach <rla@debian.org>  Wed,  9 Jan 2002 22:18:50 +0100
+
+siege (2.09-1) unstable; urgency=low
+
+  * Initial Release. (Closes: #109542)
+
+ -- Ryszard Lach <rla@debian.org>  Thu,  3 Jan 2002 16:18:27 +0100
+
+Local variables:
+mode: debian-changelog
+End:
