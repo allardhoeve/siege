@@ -1,9 +1,9 @@
 Source: siege
 Section: web
 Priority: optional
-Maintainer: Tristan Greaves <tristan@extricate.org>
+Maintainer: Josue Abarca <jmaslibre@debian.org.gt>
 Build-Depends: debhelper (>= 7), libssl-dev (>= 0.9.8)
-Standards-Version: 3.8.1
+Standards-Version: 3.8.4
 Homepage: http://www.joedog.org/JoeDog/Siege
 
 Package: siege
