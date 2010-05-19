@@ -1,7 +1,7 @@
 /**
  * Siege timer support.
  *
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege 
  *
@@ -35,14 +35,16 @@ siege_timer(pthread_t handler)
   pthread_mutex_t timer_mutex = PTHREAD_MUTEX_INITIALIZER;
   pthread_cond_t  timer_cond  = PTHREAD_COND_INITIALIZER;
 
-  if( time(&now) < 0 ){ joe_fatal( "timer failed!" ); }
+  if (time(&now) < 0) { 
+    NOTIFY(FATAL, "unable to set the siege timer!"); 
+  }
   timeout.tv_sec=now + my.secs;
   timeout.tv_nsec=0;
 
   pthread_mutex_lock(&timer_mutex); 
-  for( ;; ){
+  for (;;) {
     err = pthread_cond_timedwait( &timer_cond, &timer_mutex, &timeout);
-    if( err == ETIMEDOUT ){ 
+    if (err == ETIMEDOUT) { 
       /* timed out  */
       if(my.debug){ printf("TIMED OUT!!\n"); fflush(stdout); }
       /*if(our.shutting_down != TRUE){ pthread_kill(handler, SIGTERM); }*/
@@ -53,7 +55,7 @@ siege_timer(pthread_t handler)
       continue;
     }
   }
-  pthread_mutex_unlock( &timer_mutex );
+  pthread_mutex_unlock(&timer_mutex);
   return;
 }
 

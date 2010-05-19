@@ -2,7 +2,7 @@
  * Stralloc
  * Library: joedog
  * 
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>
  * This file is distributed as part of Siege 
  *
@@ -36,7 +36,7 @@
 #endif/*HAVE_STRINGS_H*/
 
 #include <stdlib.h>
-#include <error.h>
+#include <notify.h>
 
 char *stralloc(char *str)
 { 
@@ -44,7 +44,7 @@ char *stralloc(char *str)
  
   retval=calloc(strlen(str)+1, 1);
   if(!retval) {
-    joe_fatal("Fatal memory allocation error");
+    NOTIFY(FATAL, "Fatal memory allocation error");
   }
   strcpy(retval, str);
   return retval;

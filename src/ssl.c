@@ -1,7 +1,7 @@
 /**
  * SSL Thread Safe Setup Functions.
  *
- * Copyright (C) 2002-2007 by
+ * Copyright (C) 2002-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege
  *
@@ -46,6 +46,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <errno.h>
+#include <joedog/defs.h>
 
 /**
  * local variables and prototypes
@@ -56,8 +57,10 @@ static long            *lock_count;
 #endif/*HAVE_SSL*/
 
 unsigned long SSL_pthreads_thread_id(void);
-static   void SSL_error_stack(void); 
-static   void SSL_pthreads_locking_callback(int m, int t, char *f, int l);
+#ifdef  HAVE_SSL
+private  void SSL_error_stack(void); 
+private  void SSL_pthreads_locking_callback(int m, int t, char *f, int l);
+#endif/*HAVE_SSL*/
 
 BOOLEAN
 SSL_initialize(CONN *C)
@@ -99,7 +102,7 @@ SSL_initialize(CONN *C)
   SSL_CTX_set_timeout(C->ctx, my.ssl_timeout);
   if(my.ssl_ciphers){
     if(!SSL_CTX_set_cipher_list(C->ctx, my.ssl_ciphers)){
-      joe_error("SSL_CTX_set_cipher_list");
+      NOTIFY(ERROR, "SSL_CTX_set_cipher_list");
       return FALSE;
     }
   }
@@ -107,20 +110,20 @@ SSL_initialize(CONN *C)
   if(my.ssl_cert){
     if(!SSL_CTX_use_certificate_chain_file(C->ctx, my.ssl_cert)){
       SSL_error_stack(); /* dump the error stack */
-      joe_fatal("Error reading certificate file: %s", my.ssl_cert);
+      NOTIFY(ERROR, "Error reading certificate file: %s", my.ssl_cert);
     }
     for(i=0; i<3; i++){
       if(SSL_CTX_use_PrivateKey_file(C->ctx, my.ssl_key, SSL_FILETYPE_PEM))
         break;
       if(i<2 && ERR_GET_REASON(ERR_peek_error())==EVP_R_BAD_DECRYPT){
         SSL_error_stack(); /* dump the error stack */
-        log_warning("Wrong pass phrase: retrying");
+        NOTIFY(WARNING, "Wrong pass phrase: retrying");
         continue;
       }
     }
 
     if(!SSL_CTX_check_private_key(C->ctx)){
-      joe_error("Private key does not match the certificate");
+      NOTIFY(ERROR, "Private key does not match the certificate");
       return FALSE;
     }
   }  
@@ -134,6 +137,7 @@ SSL_initialize(CONN *C)
   serr = SSL_connect(C->ssl);
   return TRUE;
 #else
+  C->nossl = TRUE;
   return FALSE;
 #endif/*HAVE_SSL*/
 }
@@ -233,7 +237,7 @@ SSL_error_stack(void) { /* recursive dump of the error stack */
     return;
   SSL_error_stack();
   ERR_error_string(err, string);
-  joe_error("error stack: %lX : %s", err, string);
+  NOTIFY(ERROR, "stack: %lX : %s", err, string);
 } 
 
 #endif/*HAVE_SSL*/

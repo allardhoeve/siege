@@ -85,9 +85,9 @@ init_config( void )
   my.ssl_ciphers    = NULL; 
 
   if((res = pthread_mutex_init(&(my.lock), NULL)) != 0)
-    joe_fatal("unable to initiate lock");
+    NOTIFY(FATAL, "unable to initiate lock");
   if((res = pthread_cond_init(&(my.cond), NULL )) != 0)
-    joe_fatal("unable to initiate condition");
+    NOTIFY(FATAL, "unable to initiate condition");
 
   if(load_conf(my.rc) < 0){
     fprintf( stderr, "****************************************************\n" );
@@ -189,11 +189,9 @@ static char
   memset( tmp, 0, sizeof(tmp)); 
   do {
     if((fgets(tmp, sizeof(tmp), fp)) == NULL) return(NULL);
-    if( ptr == NULL ) 
+    if(ptr == NULL) {
       ptr = xstrdup( tmp );
-    else{
-      /* no check for NULL needed here, since that is joe_fatal for
-	 xrealloc already */
+    } else {
       ptr = (char*)xrealloc(ptr, strlen(ptr) + strlen(tmp) + 1);
       strcat( ptr, tmp );
     }
@@ -457,8 +455,8 @@ load_conf(char *filename)
         my.chunked = FALSE;  
     }
     else if(strmatch(option, "header")){
-      if(!strchr(value,':')) joe_fatal("no ':' in http-header");
-      if((strlen(value) + strlen(my.extra) + 3) > 512) joe_fatal("too many headers");
+      if(!strchr(value,':')) NOTIFY(FATAL, "no ':' in http-header");
+      if((strlen(value) + strlen(my.extra) + 3) > 512) NOTIFY(FATAL, "too many headers");
       strcat(my.extra,value);
       strcat(my.extra,"\015\012");
     }
@@ -529,7 +527,7 @@ ds_module_check( void )
 #endif
   }
   if( my.secs > 0 && (( my.reps > 0 ) && ( my.reps != MAXREPS ))){
-    joe_error("CONFIG conflict: selected time and repetition based testing" );
+    NOTIFY(ERROR, "CONFIG conflict: selected time and repetition based testing" );
     fprintf( stderr, "defaulting to time-based testing: %d seconds\n", my.secs );
     my.reps = MAXREPS;
   }

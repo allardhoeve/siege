@@ -1,7 +1,7 @@
 /**
  * Signal Handling
  *
- * Copyright (C) 2000-2008 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege 
  *
@@ -84,7 +84,7 @@ sig_handler(CREW crew)
 #if defined (hpux) || defined(__hpux)
 #else
   if((result = pthread_create(&spinner, NULL, (void*)spin_doctor, crew)) < 0){
-    joe_error("failed to create handler: %d\n", result);
+    NOTIFY(ERROR, "failed to create handler: %d\n", result);
   }   
 #endif
 

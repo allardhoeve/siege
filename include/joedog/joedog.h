@@ -26,19 +26,18 @@
 #include <stdarg.h>
 
 /**
- * Error handling 
+ * Error notification
  */
-void joe_openlog(void);
-void joe_closelog(void); 
+typedef enum {
+  WARNING   = 0,
+  ERROR     = 1,
+  FATAL     = 2
+} LEVEL;
 
-extern void joe_warning(const char *message, ...);
-extern void log_warning(const char *message, ...);
-
-extern void joe_error(const char *message, ...);
-extern void log_error(const char *message, ...);
-
-extern void joe_fatal(const char *message, ...);
-extern void log_fatal(const char *message, ...);
+void OPENLOG(char *program_name);
+void CLOSELOG(void);
+void SYSLOG(LEVEL L, const char *fmt, ...);
+void NOTIFY(LEVEL L, const char *fmt, ...);
 
 /**
  * Memory management

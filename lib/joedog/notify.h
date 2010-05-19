@@ -1,8 +1,8 @@
 /**
- * Error handling
+ * Error notification 
  * Library: joedog
  *
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al.
  * This file is distributed as part of Siege 
  *
@@ -21,43 +21,19 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  * -- 
  */
-#ifndef ERROR_H
-#define ERROR_H 
+#ifndef NOTIFY_H
+#define NOTIFY_H 
 
-void joe_openlog(void);
-void joe_closelog(void);  
+typedef enum {
+  WARNING   = 0,
+  ERROR     = 1,
+  FATAL     = 2
+} LEVEL;
 
-/**
- * write warning to stderr & continue; something
- * peculiar has occured...
- */
-extern void joe_warning(const char *fmt, ...);
+void OPENLOG(char *program_name);
+void CLOSELOG(void);  
+void SYSLOG(LEVEL L, const char *fmt, ...);
+void NOTIFY(LEVEL L, const char *fmt, ...);
 
-/**
- * log error to syslogd & continue
- */
-extern void log_warning(const char *fmt, ...);
 
-/**
- * write error to stderr & continue; something
- * failed but it is not necessarily fatal...
- */
-extern void joe_error(const char *fmt, ...);
-
-/**
- * log error to syslogd & die
- */
-extern void log_error(const char *fmt, ...);
-
-/**
- * write error to stderr & die; an event prevents
- * the program from continuing...
- */
-extern void joe_fatal(const char *fmt, ...);
-
-/**
- * log the error to syslogd & die
- */
-extern void log_fatal(const char *fmt, ...);
-
-#endif  /* ERROR_H */  
+#endif/*NOTIFY_H*/  

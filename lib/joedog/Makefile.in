@@ -48,7 +48,7 @@ CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libjoedog_la_LIBADD =
-am_libjoedog_la_OBJECTS = error.lo memory.lo perl.lo util.lo \
+am_libjoedog_la_OBJECTS = memory.lo notify.lo perl.lo util.lo \
 	snprintf.lo stralloc.lo
 libjoedog_la_OBJECTS = $(am_libjoedog_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
@@ -185,8 +185,8 @@ AM_CFLAGS = $(WARN_CFLAGS)
 noinst_LTLIBRARIES = libjoedog.la 
 libjoedog_la_LDFLAGS = -version-info 1:0:1
 libjoedog_la_SOURCES = \
-error.c    error.h     \
 memory.c   memory.h    \
+notify.c   notify.h    \
 perl.c     perl.h      \
 util.c     util.h      \
 snprintf.c snprintf.h  \

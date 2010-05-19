@@ -47,11 +47,11 @@
 #include <openssl/rand.h>
 #include <openssl/pem.h>
 
+#endif/*HAVE_SSL*/
+
 BOOLEAN SSL_initialize(CONN *C);
 void    SSL_thread_setup(void);
 void    SSL_thread_cleanup(void);
-
-#endif/*HAVE_SSL*/
 
 #endif/*SSL_H*/
 

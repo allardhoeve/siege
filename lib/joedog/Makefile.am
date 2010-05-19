@@ -30,8 +30,8 @@ noinst_LTLIBRARIES   = libjoedog.la
 libjoedog_la_LDFLAGS = -version-info 1:0:1
 
 libjoedog_la_SOURCES = \
-error.c    error.h     \
 memory.c   memory.h    \
+notify.c   notify.h    \
 perl.c     perl.h      \
 util.c     util.h      \
 snprintf.c snprintf.h  \
