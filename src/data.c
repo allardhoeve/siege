@@ -243,6 +243,7 @@ data_get_concurrency(DATA this)
 {
   if(this->elapsed==0)
     return 0;
-  return this->total / this->elapsed;
+  /* total transaction time / elapsed time */
+  return (this->total / this->elapsed);
 }
 

@@ -1,7 +1,7 @@
 /**
  * SIEGE socket library
  *
- * Copyright (C) 2000-2008 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege 
  *
@@ -62,8 +62,10 @@
  */
 private int     __socket_block(int socket, BOOLEAN block);
 private ssize_t __socket_write(int sock, const void *vbuf, size_t len);  
-private ssize_t __ssl_socket_write(CONN *C, const void *vbuf, size_t len);
 private BOOLEAN __socket_check(CONN *C, SDSET mode);
+#ifdef  HAVE_SSL
+private ssize_t __ssl_socket_write(CONN *C, const void *vbuf, size_t len);
+#endif/*HAVE_SSL*/
 
 /**
  * new_socket
@@ -102,16 +104,16 @@ new_socket(CONN *C, const char *hostparam, int portparam)
   /* create a socket, return -1 on failure */
   if((C->sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
     switch(errno){
-      case EPROTONOSUPPORT: { joe_error("unsupported protocol %s:%d",  __FILE__, __LINE__); break; }
-      case EMFILE:          { joe_error("descriptor table full %s:%d", __FILE__, __LINE__); break; }
-      case ENFILE:          { joe_error("file table full %s:%d",       __FILE__, __LINE__); break; }
-      case EACCES:          { joe_error("permission denied %s:%d",     __FILE__, __LINE__); break; }
-      case ENOBUFS:         { joe_error("insufficient buffer %s:%d",   __FILE__, __LINE__); break; }
-      default:              { joe_error("unknown socket error %s:%d",  __FILE__, __LINE__); break; }
+      case EPROTONOSUPPORT: { NOTIFY(ERROR, "unsupported protocol %s:%d",  __FILE__, __LINE__); break; }
+      case EMFILE:          { NOTIFY(ERROR, "descriptor table full %s:%d", __FILE__, __LINE__); break; }
+      case ENFILE:          { NOTIFY(ERROR, "file table full %s:%d",       __FILE__, __LINE__); break; }
+      case EACCES:          { NOTIFY(ERROR, "permission denied %s:%d",     __FILE__, __LINE__); break; }
+      case ENOBUFS:         { NOTIFY(ERROR, "insufficient buffer %s:%d",   __FILE__, __LINE__); break; }
+      default:              { NOTIFY(ERROR, "unknown socket error %s:%d",  __FILE__, __LINE__); break; }
     } socket_close(C); return -1;
   }
   if(fcntl(C->sock, F_SETFD, O_NDELAY) < 0){
-    joe_error("unable to set close control %s:%d", __FILE__, __LINE__);
+    NOTIFY(ERROR, "unable to set close control %s:%d", __FILE__, __LINE__);
   }
 
 #if defined(__GLIBC__)
@@ -164,17 +166,17 @@ new_socket(CONN *C, const char *hostparam, int portparam)
     opt = 1; 
     if(setsockopt(C->sock,SOL_SOCKET,SO_KEEPALIVE,(char *)&opt,sizeof(opt))<0){
       switch( errno ){
-        case EBADF:       { joe_error("invalid descriptor %s:%d",    __FILE__, __LINE__); break; }
-        case ENOTSOCK:    { joe_error("not a socket %s:%d",          __FILE__, __LINE__); break; }
-        case ENOPROTOOPT: { joe_error("not a protocol option %s:%d", __FILE__, __LINE__); break; }
-        case EFAULT:      { joe_error("setsockopt unknown %s:%d",    __FILE__, __LINE__); break; }
-        default:          { joe_error("unknown sockopt error %s:%d", __FILE__, __LINE__); break; }
+        case EBADF:       { NOTIFY(ERROR, "invalid descriptor %s:%d",    __FILE__, __LINE__); break; }
+        case ENOTSOCK:    { NOTIFY(ERROR, "not a socket %s:%d",          __FILE__, __LINE__); break; }
+        case ENOPROTOOPT: { NOTIFY(ERROR, "not a protocol option %s:%d", __FILE__, __LINE__); break; }
+        case EFAULT:      { NOTIFY(ERROR, "setsockopt unknown %s:%d",    __FILE__, __LINE__); break; }
+        default:          { NOTIFY(ERROR, "unknown sockopt error %s:%d", __FILE__, __LINE__); break; }
       } socket_close(C); return -1;
     }
   }
 
   if((__socket_block(C->sock, FALSE)) < 0){
-    joe_error("socket: unable to set socket to non-blocking %s:%d", __FILE__, __LINE__);
+    NOTIFY(ERROR, "socket: unable to set socket to non-blocking %s:%d", __FILE__, __LINE__);
     return -1; 
   }
 
@@ -187,13 +189,13 @@ new_socket(CONN *C, const char *hostparam, int portparam)
   pthread_testcancel();
   if(conn < 0 && errno != EINPROGRESS){
     switch(errno){
-      case EACCES:        {joe_error("socket: %d EACCES",                  pthread_self()); break;}
-      case EADDRNOTAVAIL: {joe_error("socket: %d address is unavailable.", pthread_self()); break;}
-      case ETIMEDOUT:     {joe_error("socket: %d connection timed out.",   pthread_self()); break;}
-      case ECONNREFUSED:  {joe_error("socket: %d connection refused.",     pthread_self()); break;}
-      case ENETUNREACH:   {joe_error("socket: %d network is unreachable.", pthread_self()); break;}
-      case EISCONN:       {joe_error("socket: %d already connected.",      pthread_self()); break;}
-      default:            {joe_error("socket: %d unknown network error.",  pthread_self()); break;}
+      case EACCES:        {NOTIFY(ERROR, "socket: %d EACCES",                  pthread_self()); break;}
+      case EADDRNOTAVAIL: {NOTIFY(ERROR, "socket: %d address is unavailable.", pthread_self()); break;}
+      case ETIMEDOUT:     {NOTIFY(ERROR, "socket: %d connection timed out.",   pthread_self()); break;}
+      case ECONNREFUSED:  {NOTIFY(ERROR, "socket: %d connection refused.",     pthread_self()); break;}
+      case ENETUNREACH:   {NOTIFY(ERROR, "socket: %d network is unreachable.", pthread_self()); break;}
+      case EISCONN:       {NOTIFY(ERROR, "socket: %d already connected.",      pthread_self()); break;}
+      default:            {NOTIFY(ERROR, "socket: %d unknown network error.",  pthread_self()); break;}
     } socket_close(C); return -1;
   } else {
     struct timeval timeout;
@@ -217,7 +219,7 @@ new_socket(CONN *C, const char *hostparam, int portparam)
        */
       res = connect(C->sock, (struct sockaddr *)&cli, sizeof(struct sockaddr_in)); 
       if((res < 0)&&(errno != EISCONN)){
-        joe_error("socket: unable to connect %s:%d", __FILE__, __LINE__);
+        NOTIFY(ERROR, "socket: unable to connect %s:%d", __FILE__, __LINE__);
         socket_close(C);
         return -1; 
       }
@@ -226,7 +228,7 @@ new_socket(CONN *C, const char *hostparam, int portparam)
   } /* end of connect conditional */
 
   if((__socket_block(C->sock, TRUE)) < 0){
-    joe_error("socket: unable to set socket to non-blocking %s:%d", __FILE__, __LINE__);
+    NOTIFY(ERROR, "socket: unable to set socket to non-blocking %s:%d", __FILE__, __LINE__);
     return -1; 
   }
 
@@ -274,7 +276,7 @@ __socket_check(CONN *C, SDSET mode)
   }
 
   if(res < 1){
-    joe_warning("socket: %d select timed out", pthread_self());
+    NOTIFY(WARNING, "socket: %d select timed out", pthread_self());
   }
 
   return (res <= 0) ? FALSE : TRUE;
@@ -303,10 +305,10 @@ __socket_block(int sock, BOOLEAN block)
 #if HAVE_FCNTL_H 
   if((flags = fcntl(sock, F_GETFL, 0)) < 0){
     switch(errno){
-      case EACCES: { joe_error("EACCES %s:%d",                 __FILE__, __LINE__); break; }
-      case EBADF:  { joe_error("bad file descriptor %s:%d",    __FILE__, __LINE__); break; }
-      case EAGAIN: { joe_error("address is unavailable %s:%d", __FILE__, __LINE__); break; }
-      default:     { joe_error("unknown network error %s:%d",  __FILE__, __LINE__); break; }
+      case EACCES: { NOTIFY(ERROR, "EACCES %s:%d",                 __FILE__, __LINE__); break; }
+      case EBADF:  { NOTIFY(ERROR, "bad file descriptor %s:%d",    __FILE__, __LINE__); break; }
+      case EAGAIN: { NOTIFY(ERROR, "address is unavailable %s:%d", __FILE__, __LINE__); break; }
+      default:     { NOTIFY(ERROR, "unknown network error %s:%d",  __FILE__, __LINE__); break; }
     } return -1;
   }
 
@@ -321,7 +323,7 @@ __socket_block(int sock, BOOLEAN block)
   }
 
   if((retval = fcntl(sock, F_SETFL, flags)) < 0){
-    joe_error("unable to set fcntl flags %s:%d", __FILE__, __LINE__);
+    NOTIFY(ERROR, "unable to set fcntl flags %s:%d", __FILE__, __LINE__);
     return -1;
   } 
   return retval;
@@ -364,17 +366,18 @@ __socket_write( int sock, const void *vbuf, size_t len )
  * returns ssize_t
  * writes vbuf to sock
  */
+#ifdef  HAVE_SSL
 private ssize_t
-__ssl_socket_write( CONN *C, const void *vbuf, size_t len )
+__ssl_socket_write(CONN *C, const void *vbuf, size_t len)
 {
   size_t      n;
   ssize_t     w;
-  int         err;
   const char *buf;
+  int         err;
 
   buf = vbuf;
   n   = len;
-#ifdef HAVE_SSL
+
   while(n > 0){
     if((w = SSL_write(C->ssl, buf, n)) <= 0){
       if(w < 0) {
@@ -385,33 +388,21 @@ __ssl_socket_write( CONN *C, const void *vbuf, size_t len )
           case SSL_ERROR_WANT_WRITE:
           return 0;
         case SSL_ERROR_SYSCALL:
-          joe_error("SSL_write() failed (syscall)");
+          NOTIFY(ERROR, "SSL_write() failed (syscall)");
           return -1;
         case SSL_ERROR_SSL:
           return -1;
-       }
-    }
-    joe_error("SSL_write() failed.");
-    return -1;
-  }
-/*****************************      
-      if(errno == EINTR){
-        w = 0;
-      } else {
-        perror("SSL_write");
-        return -1;
+        }
       }
-*****************************/
+      NOTIFY(ERROR, "SSL_write() failed.");
+      return -1;
+    }
     n   -= w;
     buf += w;
   }
   return len;
-#else
-  w = C->sock; /* silence the compiler */
-  joe_error( "protocol not supported" );
-  return -1;
-#endif/*HAVE_SSL*/
 }
+#endif/*HAVE_SSL*/
 
 ssize_t
 socket_read(CONN *C, void *vbuf, size_t len)
@@ -466,7 +457,7 @@ socket_read(CONN *C, void *vbuf, size_t len)
           if(errno==EPIPE){
             return 0;
           } else {
-            joe_error("socket: read error %s %s:%d", strerror(errno), __FILE__, __LINE__);
+            NOTIFY(ERROR, "socket: read error %s %s:%d", strerror(errno), __FILE__, __LINE__);
             return 0; /* was return -1 */
           }
         }
@@ -562,13 +553,13 @@ socket_write(CONN *C, const void *buf, size_t len)
       }
     } while(bytes == 0);
     #else
-    joe_error("%s:%d protocol NOT supported", __FILE__, __LINE__);
+    NOTIFY(ERROR, "%s:%d protocol NOT supported", __FILE__, __LINE__);
     return -1;
     #endif/*HAVE_SSL*/
   } else {
     /* assume HTTP */
     if((bytes = __socket_write(C->sock, buf, len)) != len){
-      joe_error("unable to write to socket %s:%d", __FILE__, __LINE__);
+      NOTIFY(ERROR, "unable to write to socket %s:%d", __FILE__, __LINE__);
       return -1;
     }
   }
@@ -623,11 +614,11 @@ socket_close(CONN *C)
     if(C->connection.reuse == 0 || C->connection.max == 1){
       if(C->sock != -1){
         if((__socket_block(C->sock, FALSE)) < 0)
-          joe_error("unable to set to non-blocking %s:%d", __FILE__, __LINE__);
+          NOTIFY(ERROR, "unable to set to non-blocking %s:%d", __FILE__, __LINE__);
         if((C->connection.status > 1)&&(ret = shutdown(C->sock, 2)) < 0)
-          joe_error("unable to shutdown the socket %s:%d", __FILE__, __LINE__);
+          NOTIFY(ERROR, "unable to shutdown the socket %s:%d", __FILE__, __LINE__);
         if((ret = close(C->sock)) < 0)
-          joe_error("unable to close the socket %s:%d",    __FILE__, __LINE__);
+          NOTIFY(ERROR, "unable to close the socket %s:%d",    __FILE__, __LINE__);
       }
       C->sock                 = -1;
       C->connection.status    =  0;

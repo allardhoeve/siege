@@ -1,6 +1,16 @@
 To email a contributor remove "DELETE" from the email address.
 (The DELETEs are necessary as this list is published online.)
 
+2009/05/11 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE RELEASE *        RELEASE_2-69_MAY-11-2009
+
+2009/05/08 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * lib/notify.c           Changed the APIs for error management
+ * lib/memory.c           Refined some of the memory functions
+ * src/*.c                Updated to reflect new libjoedog API
+ * src/ssl.c              Increased the scope of HAVE_SSL
+ * src/sock.c             Increased the scope of HAVE_SSL
+
 2009/04/20 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
  * SIEGE RELEASE *        RELEASE_2-68_APR-20-2009
 

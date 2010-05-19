@@ -2,7 +2,7 @@
  * Utility functions
  * Library: joedog
  *
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>
  * This file is distributed as part of Siege 
  *
@@ -22,7 +22,7 @@
  * 
  */
 #include <util.h>
-#include <error.h>
+#include <notify.h>
 #include <memory.h>
 
 /**
@@ -47,8 +47,8 @@ substring(char *str, int start, int len)
   ptr = str;
   end = str;
 
-  for(i = 0; i < start; i++, *ptr++) ;
-  for(i = 0; i < start+len; i++, *end++) ;
+  for(i = 0; i < start; i++, ptr++) ;
+  for(i = 0; i < start+len; i++, end++) ;
   while(ptr < end)
     *res++ = *ptr++;
 

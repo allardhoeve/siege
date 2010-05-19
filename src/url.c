@@ -348,12 +348,12 @@ build_url(char *url, int defaultport, int id)
     U->postlen    = 0;
   }
 
-  if((mark[0] = protocol_length(url)) > 0 && is_supported(url) == TRUE){
+  if ((mark[0] = protocol_length(url)) > 0 && is_supported(url) == TRUE) {
     mark[0] += 2;
   } else if((mark[0] = protocol_length(url)) > 0 && is_supported(url) == FALSE){
     U->protocol = UNSUPPORTED;
     mark[0]   += 2;
-    joe_warning("unsupported protocol");
+    NOTIFY(WARNING, "unsupported protocol");
     return NULL;
   } else {
     /* we are dealing with who knows what */
@@ -393,7 +393,7 @@ build_url(char *url, int defaultport, int id)
   if(mark[0] != mark[3]){
     U->hostname = (char*)(substring(url, mark[0], (mark[3] - mark[0]))); 
   } else {
-    joe_warning( "malformed URL: %s", url );
+    NOTIFY(WARNING, "malformed URL: %s", url);
     return NULL;
   }
     
@@ -447,8 +447,8 @@ add_url(char *url, int id)
    * can inform the user rather then
    * simply abort with an archaic msg.
    */
-  if(!url){
-    joe_warning("INVALID URL: <%s>", url);
+  if (!url) {
+    NOTIFY(WARNING, "INVALID URL: <%s>", url);
     display_help();
   } 
   /**
@@ -457,7 +457,6 @@ add_url(char *url, int id)
   tmp = (char*)xstrdup(url);
   tmp_url = build_url(tmp, -1, id);
   xfree(tmp);
-  
   return tmp_url;
 }
 

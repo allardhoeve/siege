@@ -1,7 +1,7 @@
 /**
  * Load Post Data
  *
- * Copyright (C) 2002-2007 by
+ * Copyright (C) 2002-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege
  *
@@ -401,10 +401,10 @@ load_file(URL *U, char *file)
   if((lstat(filename, &st) == 0) || (errno != ENOENT)){ 
     len = (st.st_size >= POST_BUF) ? POST_BUF : st.st_size;  
     if(len < (unsigned)st.st_size){
-      joe_warning("Truncated file: %s exceeds the post limit of %d bytes.\n", filename, POST_BUF);
+      NOTIFY(WARNING, "Truncated file: %s exceeds the post limit of %d bytes.\n", filename, POST_BUF);
     }
     if((fp = fopen(filename, "r")) == NULL){
-      joe_error("could not open file: %s", filename);
+      NOTIFY(ERROR, "could not open file: %s", filename);
       return;
     }
     if((fread(postdata, 1, len, fp )) == len){
@@ -413,7 +413,7 @@ load_file(URL *U, char *file)
       else if(looks_utf8((unsigned char*)postdata,len,ubuf,&ulen))
         trim(postdata);
     } else {
-      joe_error( "unable to read file: %s", filename );
+      NOTIFY(ERROR, "unable to read file: %s", filename );
     }
     fclose(fp);
   }

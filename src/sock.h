@@ -1,8 +1,8 @@
 /**
  * SIEGE socket header file
  *
- * Copyright (C) 2000, 2001, 2002 by
- * Jeffrey Fulmer - <jdfulmer@armstrong.com>
+ * Copyright (C) 2000-2009 by
+ * by Jeffrey Fulmer - <jeff@joedog.org>, et al.
  * This file is distributed as part of Siege 
  *
  * This program is free software; you can redistribute it and/or modify
@@ -112,6 +112,8 @@ typedef struct
   SSL_CTX    *ctx;
   SSL_METHOD *method;
   X509       *cert;
+#else 
+  BOOLEAN     nossl;
 #endif/*HAVE_SSL*/
   size_t   inbuffer;
   int      pos_ini;

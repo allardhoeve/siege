@@ -1,7 +1,7 @@
 /**
  * Configuration file support
  *
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege 
  *
@@ -70,7 +70,7 @@ read_cfg_file(LINES *l, char *filename)
   if((file = fopen(filename, "r")) == NULL) {
     /* this is a fatal problem, but we want  
        to enlighten the user before dying   */
-    joe_error("unable to open file: %s", filename);
+    NOTIFY(WARNING, "unable to open file: %s", filename);
     display_help();
     exit(EXIT_FAILURE);
   }

@@ -24,63 +24,61 @@
  */
 #include <config.h>
 #include <memory.h>
-#include <error.h>
+#include <notify.h>
 #include <string.h>
 
 char *
 xstrdup(const char *str)
 {
-  char *dupe;
+  register char *ret;
 #ifndef HAVE_STRDUP
-  int  i;
+  register size_t len; 
 #endif/*HAVE_STRDUP*/
 
-  if(!str)
-    joe_fatal("string has no value!");
+  if(!str){
+    NOTIFY(ERROR, "string has no value!");
+    return NULL;
+  }
 #ifdef HAVE_STRDUP
-  dupe = strdup(str);
-  if(dupe==NULL)
-    joe_fatal("xstrdup"); 
+  ret = strdup(str);
+  if(ret==NULL) NOTIFY(FATAL, "xstrdup: unable to allocate additional memory"); 
 #else
-  i    = strlen(str);
-  dupe = malloc(i + 1);
-  if(dupe==NULL)
-    joe_fatal("xstrdup");
-  memcpy(dupe, str, i + 1);
+  len = strlen(str)+1;
+  ret = malloc(len);
+  if (ret==NULL) {
+    NOTIFY(FATAL, "xstrdup: unable to allocate additional memory");
+  }
+  memcpy(ret, str, len);
 #endif
-
-  return dupe; 
+  return ret; 
 }
 
 /**
- * xrealloc    replaces realloc
+ * xrealloc: value added realloc
  */
 void * 
-xrealloc(void *object, size_t size)
+xrealloc(void *ptr, size_t size)
 {
   void *tmp;
-  if(object)
-    tmp = realloc(object, size);
-  else
+  if (ptr) {
+    tmp = realloc(ptr, size);
+  } else {
     tmp = malloc(size);
-  if(tmp==NULL)
-    joe_fatal("Memory exhausted");
+  }
+  if (tmp==NULL) NOTIFY(FATAL, "Memory exhausted; unable to continue.");
   return tmp;
-} /** end xrealloc **/
+}
 
 /**
- * xmalloc     replaces malloc
+ * xmalloc: value-added malloc
  */
 void *
 xmalloc(size_t size)
 {
-  void *tmp  =  malloc(size);
-
-  if(tmp==NULL)
-    joe_fatal("Memory exhausted");
-  
+  void *tmp = malloc(size);
+  if(tmp==NULL) NOTIFY(FATAL, "Unable to allocate additional memory.");
   return tmp;
-} /** end of xmalloc **/
+} 
 
 /**
  * xcalloc     replaces calloc
@@ -89,11 +87,9 @@ void *
 xcalloc(size_t num, size_t size)
 {
   void *tmp  =  xmalloc(num * size);
-
   memset(tmp, 0, (num * size));
-
   return tmp;
-} /** end of xcalloc **/
+} 
 
 
 /** 

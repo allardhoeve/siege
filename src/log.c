@@ -1,7 +1,7 @@
 /**
  * Transacation logging support
  *
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege 
  *
@@ -80,7 +80,7 @@ write_to_log(int count, float elapsed, int bytes, float ttime, int code, int fai
 
   if(!file_exists(my.logfile)){
     if(!create_logfile(my.logfile)){
-      joe_error("unable to create log file");
+      NOTIFY(ERROR, "unable to create log file");
       return;
     }
   }
@@ -95,7 +95,7 @@ write_to_log(int count, float elapsed, int bytes, float ttime, int code, int fai
 
   /* open the log and write to file */
   if((fd = open( my.logfile, O_WRONLY | O_APPEND, 0644 )) < 0){
-    joe_error("Unable to write to file");
+    NOTIFY(ERROR, "Unable to write to file");
     return;
   }
 
@@ -117,7 +117,7 @@ mark_log_file(char *message)
   /* if the file does NOT exist then create it.  */
   if(!file_exists(my.logfile)){
     if(!create_logfile(my.logfile)){
-      joe_error("unable to create log file");
+      NOTIFY(ERROR, "unable to create log file");
       return;
     }
   }
@@ -125,18 +125,16 @@ mark_log_file(char *message)
   /* create the log file entry */
   snprintf(entry, sizeof entry, "**** %s ****\n", message);
 
-  /* open the file and write to it */
-  if((fd = open( my.logfile, O_WRONLY | O_APPEND, 0644 )) < 0 ) {
-    joe_error( "Unable to write to file" );
-    /** not necessarily fatal **/
+  if ((fd = open( my.logfile, O_WRONLY | O_APPEND, 0644 )) < 0) {
+    NOTIFY(ERROR, "Unable to write to file" );
   }
 
   write(fd, entry, strlen(entry));
   close(fd);
 
   return; 
-
 }
+
 /**
  * returns TRUE if the file exists,
  */

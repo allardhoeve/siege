@@ -1,7 +1,7 @@
 /**
  * HTTP/HTTPS protocol support 
  *
- * Copyright (C) 2000-2007 by
+ * Copyright (C) 2000-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege 
  *
@@ -55,7 +55,7 @@ https_tunnel_request(CONN *C, char *host, int port)
     rlen = strlen(request); 
     if(my.debug || my.get){fprintf(stdout, "%s", request); fflush(stdout);}
     if((n = socket_write(C, request, rlen)) != rlen){
-      joe_error( "socket_write: ERROR" );
+      NOTIFY(ERROR, "HTTP: unable to write to socket." );
       return FALSE;
     }
   } else {
@@ -185,9 +185,9 @@ http_get(CONN *C, URL *U)
   );
  
   if(my.debug || my.get){ printf("%s\n", request); fflush(stdout); }
-  if(rlen < 0 || rlen > (int)sizeof(request)) 
-    joe_fatal("http_get: request buffer overrun!");
-
+  if(rlen < 0 || rlen > (int)sizeof(request)){ 
+    NOTIFY(FATAL, "HTTP GET: request buffer overrun!");
+  }
   if((socket_write(C, request, rlen)) < 0){
     xfree(ifmod);
     xfree(ifnon);
@@ -292,9 +292,9 @@ http_post(CONN *C, URL *U)
   rlen += U->postlen;
   
   if(my.debug || my.get){ printf("%s\n", request); fflush(stdout); }
-  if(rlen<0 || rlen>(int)sizeof(request) )
-    joe_fatal("http_post: request buffer overrun!"); 
-
+  if(rlen<0 || rlen>(int)sizeof(request)){
+    NOTIFY(FATAL, "HTTP POST: request buffer overrun! Unable to continue..."); 
+  }
   if((socket_write(C, request, rlen)) < 0){
     return -1;
   }
@@ -519,7 +519,7 @@ http_chunk_size(CONN *C)
 
   memset(C->chkbuf, 0, sizeof(C->chkbuf));
   if((n = socket_readline(C, C->chkbuf, sizeof(C->chkbuf))) < 1){
-    joe_error("http.c: unable to determine chunk size");
+    NOTIFY(WARNING, "HTTP: unable to determine chunk size");
     return -1;
   }
 
@@ -532,7 +532,7 @@ http_chunk_size(CONN *C)
     return -1;
   length = strtoul(C->chkbuf, &end, 16);
   if((errno == ERANGE) || (end == C->chkbuf)){
-    joe_error("http.c: bad chunk line %s\n", C->chkbuf);
+    NOTIFY(WARNING, "HTTP: invalid chunk line %s\n", C->chkbuf);
     return 0;
   } else {
     return length;
@@ -552,8 +552,7 @@ http_read(CONN *C)
   size_t length = 0;
   static char body[MAXFILE];
 
-  if( C == NULL )
-    joe_fatal("C is NULL!\n"); 
+  if(C == NULL) NOTIFY(FATAL, "Connection is NULL! Unable to proceded"); 
 
   if(C->content.length > 0){
     length = (C->content.length < MAXFILE)?C->content.length:MAXFILE;

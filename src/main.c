@@ -259,9 +259,9 @@ parse_cmdline(int argc, char *argv[])
         break; 
       case 'H':
         {
-          if(!strchr(optarg,':')) joe_fatal("no ':' in http-header");
+          if(!strchr(optarg,':')) NOTIFY(FATAL, "no ':' in http-header");
           if((strlen(optarg) + strlen(my.extra) + 3) > 512)
-              joe_fatal("too many headers");
+              NOTIFY(FATAL, "too many headers");
           strcat(my.extra,optarg);
           strcat(my.extra,"\015\012");
         }
@@ -345,14 +345,14 @@ main(int argc, char *argv[])
   cookie = xcalloc(sizeof(COOKIE), 1); 
   cookie->first = NULL;
   if((result = pthread_mutex_init( &(cookie->mutex), NULL)) !=0){
-    joe_fatal( "pthread_mutex_init" );
+    NOTIFY(FATAL, "pthread_mutex_init" );
   } 
 
   /* memory allocation for threads and clients */
   urls   = xmalloc(my.length * sizeof(URL));
   client = xcalloc(my.cusers, sizeof(CLIENT));
   if((crew = new_crew(my.cusers, my.cusers, FALSE)) == NULL){
-    joe_fatal("unable to allocate memory for %d simulated browser", my.cusers);  
+    NOTIFY(FATAL, "unable to allocate memory for %d simulated browser", my.cusers);  
   }
 
   /** 
@@ -415,11 +415,11 @@ main(int argc, char *argv[])
    * sigterm to cease on time out.
    */
   if((result = pthread_create(&cease, NULL, (void*)sig_handler, (void*)crew)) < 0){
-    joe_fatal("failed to create handler: %d\n", result);
+    NOTIFY(FATAL, "failed to create handler: %d\n", result);
   }
   if(my.secs > 0){
     if((result = pthread_create(&timer, NULL, (void*)siege_timer, (void*)cease)) < 0){
-      joe_fatal("failed to create handler: %d\n", result);
+      NOTIFY(FATAL, "failed to create handler: %d\n", result);
     } 
   }
   
@@ -448,7 +448,7 @@ main(int argc, char *argv[])
       fprintf(stderr, "Unable to spawn additional threads; you may need to\n");
       fprintf(stderr, "upgrade your libraries or tune your system in order\n"); 
       fprintf(stderr, "to exceed %d users.\n", my.cusers);
-      joe_fatal("system resources exhausted"); 
+      NOTIFY(FATAL, "system resources exhausted"); 
     }
   } /* end of for pthread_create */
 

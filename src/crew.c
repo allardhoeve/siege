@@ -1,7 +1,7 @@
 /**
  * Thread Pool 
  *
- * Copyright (C) 2005-2008 by
+ * Copyright (C) 2005-2009 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  *
  * This program is free software; you can redistribute it and/or modify
@@ -96,16 +96,16 @@ private void
 
   while(TRUE){
     if((c = pthread_mutex_lock(&(this->lock))) != 0){
-      joe_fatal("mutex lock"); 
+      NOTIFY(FATAL, "mutex lock"); 
     }
     while((this->cursize == 0) && (!this->shutdown)){
       if((c = pthread_cond_wait(&(this->not_empty), &(this->lock))) != 0)
-        joe_fatal("pthread wait");
+        NOTIFY(FATAL, "pthread wait");
     }
 
     if(this->shutdown == TRUE){
       if((c = pthread_mutex_unlock(&(this->lock))) != 0){
-        joe_fatal("mutex unlock");
+        NOTIFY(FATAL, "mutex unlock");
       }
       pthread_exit(NULL);
     }
@@ -119,16 +119,16 @@ private void
     }
     if((this->block) && (this->cursize == (this->maxsize - 1))){
       if((c = pthread_cond_broadcast(&(this->not_full))) != 0){
-        joe_fatal("pthread broadcast");
+        NOTIFY(FATAL, "pthread broadcast");
       }
     }
     if(this->cursize == 0){
       if((c = pthread_cond_signal(&(this->empty))) != 0){
-        joe_fatal("pthread signal");
+        NOTIFY(FATAL, "pthread signal");
       }
     }
     if((c = pthread_mutex_unlock(&(this->lock))) != 0){
-      joe_fatal("pthread unlock");
+      NOTIFY(FATAL, "pthread unlock");
     }
 
     (*(workptr->routine))(workptr->arg);
@@ -146,28 +146,28 @@ crew_add(CREW crew, void (*routine)(), void *arg)
   WORK *workptr;
 
   if((c = pthread_mutex_lock(&(crew->lock))) != 0){
-    joe_fatal("pthread lock");
+    NOTIFY(FATAL, "pthread lock");
   }
   if((crew->cursize == crew->maxsize) && !crew->block ){
     if((c = pthread_mutex_unlock(&(crew->lock))) != 0){
-      joe_fatal("pthread unlock");
+      NOTIFY(FATAL, "pthread unlock");
     }
     return FALSE;
   }
 
   while((crew->cursize == crew->maxsize ) && (!(crew->shutdown || crew->closed))){
     if((c = pthread_cond_wait(&(crew->not_full), &(crew->lock))) != 0){
-      joe_fatal("pthread wait");
+      NOTIFY(FATAL, "pthread wait");
     }
   }
   if(crew->shutdown || crew->closed){
     if((c = pthread_mutex_unlock(&(crew->lock))) != 0){
-      joe_fatal("pthread unlock");
+      NOTIFY(FATAL, "pthread unlock");
     } 
     return FALSE;
   }
   if((workptr = (WORK *)malloc(sizeof(WORK))) == NULL){
-    joe_fatal("out of memory");
+    NOTIFY(FATAL, "out of memory");
   }
   workptr->routine = routine;
   workptr->arg     = arg;
@@ -176,7 +176,7 @@ crew_add(CREW crew, void (*routine)(), void *arg)
   if(crew->cursize == 0){
     crew->tail = crew->head = workptr;
     if((c = pthread_cond_broadcast(&(crew->not_empty))) != 0){
-      joe_fatal("pthread signal");
+      NOTIFY(FATAL, "pthread signal");
     }
   } else {
     crew->tail->next = workptr;
@@ -186,7 +186,7 @@ crew_add(CREW crew, void (*routine)(), void *arg)
   crew->cursize++; 
   crew->total  ++;
   if((c = pthread_mutex_unlock(&(crew->lock))) != 0){
-    joe_fatal("pthread unlock");
+    NOTIFY(FATAL, "pthread unlock");
   }
   
   return TRUE;
@@ -221,12 +221,12 @@ crew_join(CREW crew, BOOLEAN finish, void **payload)
   int    c;
 
   if((c = pthread_mutex_lock(&(crew->lock))) != 0){
-    joe_fatal("pthread lock");
+    NOTIFY(FATAL, "pthread lock");
   }
 
   if(crew->closed || crew->shutdown){
     if((c = pthread_mutex_unlock(&(crew->lock))) != 0){
-      joe_fatal("pthread unlock");
+      NOTIFY(FATAL, "pthread unlock");
     }
     return FALSE;
   }
@@ -250,7 +250,7 @@ crew_join(CREW crew, BOOLEAN finish, void **payload)
       }
 
       if( rc != 0){
-	joe_fatal("pthread wait");
+	NOTIFY(FATAL, "pthread wait");
       }
     }
   }
@@ -258,20 +258,20 @@ crew_join(CREW crew, BOOLEAN finish, void **payload)
   crew->shutdown = TRUE;
 
   if((c = pthread_mutex_unlock(&(crew->lock))) != 0){
-    joe_fatal("pthread_mutex_unlock");
+    NOTIFY(FATAL, "pthread_mutex_unlock");
   }
 
   if((c = pthread_cond_broadcast(&(crew->not_empty))) != 0){
-    joe_fatal("pthread broadcast");
+    NOTIFY(FATAL, "pthread broadcast");
   }
   
   if((c = pthread_cond_broadcast(&(crew->not_full))) != 0){
-    joe_fatal("pthread broadcast");
+    NOTIFY(FATAL, "pthread broadcast");
   }
 
   for(x = 0; x < crew->size; x++){
     if((c = pthread_join(crew->threads[x], payload)) != 0){
-      joe_fatal("pthread_join");
+      NOTIFY(FATAL, "pthread_join");
     }
   }
 
