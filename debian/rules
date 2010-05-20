@@ -8,15 +8,9 @@
 export DH_OPTIONS
 
 %:
-	dh  $@
+	dh --with autotools_dev $@
 
 override_dh_auto_configure:
-ifneq "$(wildcard /usr/share/misc/config.sub)" ""
-	cp -f /usr/share/misc/config.sub config.sub
-endif
-ifneq "$(wildcard /usr/share/misc/config.guess)" ""
-	cp -f /usr/share/misc/config.guess config.guess
-endif
 	dh_auto_configure -- --sysconfdir=/etc/siege
 override_dh_auto_install:
 	dh_auto_install -- sysconfdir=$(CURDIR)/debian/siege/etc/siege
