@@ -9,3 +9,8 @@ export DH_OPTIONS
 
 %:
 	dh  $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- --sysconfdir=/etc/siege
+override_dh_auto_install:
+	dh_auto_install -- sysconfdir=$(CURDIR)/debian/siege/etc/siege
