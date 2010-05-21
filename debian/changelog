@@ -2,8 +2,9 @@ siege (2.69-1) unstable; urgency=low
 
   * New upstream release.
   * Debhelper 7 used to simplify debian/rules.
+  * Switch to dpkg-source 3.0 (quilt) format
 
- -- Josue Abarca <jmaslibre@debian.org.gt>  Wed, 19 May 2010 08:54:35 -0600
+ -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 20 May 2010 23:38:34 -0600
 
 siege (2.68-1) unstable; urgency=low
 
