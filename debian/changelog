@@ -1,8 +1,21 @@
+siege (2.69-2) UNRELEASED; urgency=low
+
+
+ -- Josue Abarca <jmaslibre@debian.org.gt>  Fri, 21 May 2010 09:29:29 -0600
+
 siege (2.69-1) unstable; urgency=low
 
   * New upstream release.
+  * New Maintainer, thanks to Tristan Greaves for his
+    previous work. (closes: #578699)
   * Debhelper 7 used to simplify debian/rules.
   * Switch to dpkg-source 3.0 (quilt) format
+  * debian/rules
+    - siege2csv.pl is now renamed to siege2csv at build time.
+    - dh --with autotools_dev added to update config.{sub,guess}.
+    - Build dependency on autotool-dev (>= 20100122.1) added.
+  * Switch to dpkg-source 3.0 (quilt) format
+  * layingsiege.7.in.diff patch added to fix a typo
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 20 May 2010 23:38:34 -0600
 

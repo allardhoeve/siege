@@ -2,8 +2,8 @@ Description: This patch corrects
  a misspelling,changing recieved
  by received.
 
-Forwarded: No
-Author:  Josue Abarca <jmaslibre@debian.org.gt>
+Forwarded: Yes
+Author: Josue Abarca <jmaslibre@debian.org.gt>
 Last-Update: 2010-05-21
 
 --- a/doc/layingsiege.7.in
