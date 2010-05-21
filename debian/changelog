@@ -12,8 +12,11 @@ siege (2.69-1) unstable; urgency=low
     - Build dependency on autotool-dev (>= 20100122.1) added.
   * Switch to dpkg-source 3.0 (quilt) format.
   * layingsiege.7.in.diff patch added to fix a typo.
-  * bombardment.in.diff patch added to avoid the use of
+  * bombardment.in-typo.diff patch added to avoid the use of
     a language-specific extension (Debian Policy Manual
+    section 10.4).
+  * bombardment.in-fix-arithmetic.diff patch added to fix
+    syntax errors on arithmetic expressions. (closes: #551270)
     section 10.4).
   * debian/control Vcs-Git and Vcs-Browser added.
 
