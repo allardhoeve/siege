@@ -1,0 +1,16 @@
+Description: This patch is added to avoid the
+ use of a language-specific extension
+ (Debian Policy Manual section 10.4).
+
+Forwarded: not-needed
+Author: Josue Abarca <jmaslibre@debian.org.gt>
+Last-Update: 2010-05-21
+
+--- a/utils/bombardment.in
++++ b/utils/bombardment.in
+@@ -104,4 +104,4 @@
+ # Finally, we call siege2csv.pl to convert all the human-readable Siege
+ # output to CSV, for easy spreadsheet usage.
+  
+-siege2csv.pl siege.$serial
++siege2csv siege.$serial

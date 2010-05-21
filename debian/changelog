@@ -1,6 +1,6 @@
 siege (2.69-1) unstable; urgency=low
 
-  * New upstream release.
+  * New upstream release. (closes: #553231)
   * New Maintainer, thanks to Tristan Greaves for his
     previous work. (closes: #578699)
   * Debhelper 7 used to simplify debian/rules.
@@ -8,9 +8,13 @@ siege (2.69-1) unstable; urgency=low
   * debian/rules
     - siege2csv.pl is now renamed to siege2csv at build time.
     - dh --with autotools_dev added to update config.{sub,guess}.
+      (closes: #535726)
     - Build dependency on autotool-dev (>= 20100122.1) added.
   * Switch to dpkg-source 3.0 (quilt) format.
   * layingsiege.7.in.diff patch added to fix a typo.
+  * bombardment.in.diff patch added to avoid the use of
+    a language-specific extension (Debian Policy Manual
+    section 10.4).
   * debian/control Vcs-Git and Vcs-Browser added.
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 20 May 2010 23:38:34 -0600
