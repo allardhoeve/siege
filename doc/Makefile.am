@@ -1,7 +1,7 @@
 ##
 ## doc/Makefile.am
 ##
-## Copyright (C) 2000-2007 by
+## Copyright (C) 2000-2010 by
 ## Jeffrey Fulmer - <jeff@joedog.org>, et al.
 ## This file is distributed as part of Siege
 ##

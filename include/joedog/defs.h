@@ -7,6 +7,7 @@
 #define  ISSPACE(x)     isspace((unsigned char)(x))
 #define  ISOPERAND(x) ('<'==(x)||'>'==(x)||'='==(x))
 #define  ISDIGIT(x)     isdigit ((unsigned char)(x)) 
+#define  ISNUMBER(v)  (((v) > (char)0x2f) && ((v) < (char)0x3a))
 #define  ISQUOTE(x)   (x == '"' || x == '\'') 
 #if STDC_HEADERS
 # define TOLOWER(Ch) tolower (Ch)

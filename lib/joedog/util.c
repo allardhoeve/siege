@@ -47,8 +47,8 @@ substring(char *str, int start, int len)
   ptr = str;
   end = str;
 
-  for(i = 0; i < start; i++, ptr++) ;
-  for(i = 0; i < start+len; i++, end++) ;
+  for(i = 0; i < start; i++, *ptr++) ;
+  for(i = 0; i < start+len; i++, *end++) ;
   while(ptr < end)
     *res++ = *ptr++;
 

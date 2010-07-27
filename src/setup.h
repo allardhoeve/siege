@@ -110,6 +110,7 @@ int strlen();
 #endif
 
 #include <url.h>
+#include <array.h>
 #include <joedog/joedog.h>
 #include <joedog/boolean.h>
 #include <joedog/joepath.h>
@@ -183,7 +184,7 @@ struct CONFIG
   } auth;  
   BOOLEAN keepalive;    /* boolean, connection keep-alive value    */
   int     signaled;     /* timed based testing notification bool.  */
-  char    extra[512];   /* extra http request headers              */ 
+  char    extra[2048];  /* extra http request headers              */ 
   struct {
     BOOLEAN required;   /* boolean, TRUE == use a proxy server.    */
     char *hostname;     /* hostname for the proxy server.          */
@@ -193,7 +194,8 @@ struct CONFIG
     pthread_mutex_t lock; 
   } proxy;
   BOOLEAN login;        /* boolean, client must login first.       */
-  char    *loginurl;    /* the initial login URL, first URL hit.   */
+  char    *loginurl;    /* XXX: deprecated the initial login URL   */
+  ARRAY   lurl;
   int     failures;     /* number of failed attempts before abort. */
   int     failed;       /* total number of socket failures.        */
   BOOLEAN expire;       /* boolean, TRUE == expire cookies ea. run */

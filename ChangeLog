@@ -1,6 +1,72 @@
 To email a contributor remove "DELETE" from the email address.
 (The DELETEs are necessary as this list is published online.)
 
+2010/07/16 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE RELEASE          RELEASE_2-70_JUL-16-2010
+
+2010/05/21 Josue Abarca <jmaslibre@DELETEdebian.org.gt>
+ * utils/bombardment      Fixed a syntax error which caused it to break
+
+2010/05/16 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-70b8_MAY-16-2010
+ * src/array.c            dynamic memory allocation
+ * src/array.h            updated prototypes; include ARRAYSIZE
+ * src/client.c           updated debugging statements in new format
+ * src/http.c             updated debugging statements in new format
+
+2010/05/11 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-70b6_MAY-11-2010
+ * src/version.c          Increment: 2.70b6
+ * src/setup.h            Increased extra to 2048
+ * src/http.h             Added the difference (1536) to REQBUF and POSTBUF
+
+2010/05/08 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-70b6_MAY-08-2010
+ * lib/notify.c           Added color codings for each level
+ * lib/notify.h           Added DEBUG option 
+ * include/joedog.h       ADDED DEBUG option
+ * src/array.c            Improved memory management
+ * src/array.h            Removed size parameter
+
+2010/05/08 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-70b5_MAY-08-2010
+ * src/version.c          Increment: 2.70b5
+ * src/array.c            Added to distribution (circular array support)
+ * src/array.h            Added to distribution (circular array support)
+ * src/setup.h            Added ARRAY lurl - array of upto 50 login URLS
+ * src/init.c             Added parse login-url and push onto array
+ * src/client.c           Loop through login-urls 
+
+2010/04/30 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-70b4_APR-30-2010
+ * include/joedog.h       wrapped *nprintf functions with ndef __CYGWIN__
+ * src/version.c          Increment: 2.70b4
+
+2010/04/05 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE *   RELEASE_2-70b3_APR-28-2010
+ * src/load.c             Changed detection of binary file types based
+                          on file name extensions.
+ * src/http.h             Added definitions for REQBUF and POSTBUF
+ * src/http.c             Changed the size of POST request to REQBUF+POSTBUF
+ * src/main.c             Added fix to prevent segfault on unsupported protocol
+ * src/version.c          Increment: 2.70b3
+
+2010/03/11 "Raul Martinez Jr" <juney.m@DELETEgmail.com>
+ * SIEGE BETA RELEASE     RELEASE_2-70b2_MAR-11-2010
+ * src/main.c             Added an optional log file to -l/--log[=file]
+                          Updated help section with some word smithing
+ * src/version.c          Increment: 2.70b2
+
+2009/07/28 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE *   RELEASE_2-70_JUL-28-2009
+ * src/version.c          Increment: 2.70b1
+
+2009/07/27 "Mark Sonnabaum" <marksonnabaum@DELETEgmail.com>
+ * src/cookie.c           Fixed a problem in which cookies aren't returned 
+                          when the domain is stored with a leading dot. This 
+                          software is NINE years old, people. What took so 
+                          long to ID this bug???
+
 2009/05/11 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
  * SIEGE RELEASE *        RELEASE_2-69_MAY-11-2009
 

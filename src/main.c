@@ -1,7 +1,7 @@
 /**
  * Siege, http regression tester / benchmark utility
  *
- * Copyright (C) 2000-2007 by  
+ * Copyright (C) 2000-2010 by  
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege
  *
@@ -69,10 +69,9 @@ static struct option long_options[] =
   { "reps",       required_argument, NULL, 'r' },
   { "time",       required_argument, NULL, 't' },
   { "delay",      required_argument, NULL, 'd' },
-  { "log",        no_argument,       NULL, 'l' },
+  { "log",        optional_argument, NULL, 'l' },
   { "file",       required_argument, NULL, 'f' },
   { "rc",         required_argument, NULL, 'R' }, 
-  { "url",        required_argument, NULL, 'u' },
   { "mark",       required_argument, NULL, 'm' },
   { "header",     required_argument, NULL, 'H' },
   { "user-agent", required_argument, NULL, 'A' }
@@ -125,28 +124,29 @@ display_help()
   printf("       %s [options] URL\n", program_name);
   printf("       %s -g URL\n", program_name);
   printf("Options:\n"                    );
-  puts("  -V, --version           VERSION, prints version number to screen.");
+  puts("  -V, --version           VERSION, prints the version number.");
   puts("  -h, --help              HELP, prints this section.");
-  puts("  -C, --config            CONFIGURATION, show the current configuration.");
+  puts("  -C, --config            CONFIGURATION, show the current config.");
   puts("  -v, --verbose           VERBOSE, prints notification to screen.");
-  puts("  -g, --get               GET, pull down headers from the server and display HTTP");
-  puts("                          transaction. Great for web application debugging.");
+  puts("  -g, --get               GET, pull down HTTP headers and display the");
+  puts("                          transaction. Great for application debugging.");
   puts("  -c, --concurrent=NUM    CONCURRENT users, default is 10");
-  puts("  -u, --url=\"URL\"         Deprecated. Set URL as the last argument." );
-  puts("  -i, --internet          INTERNET user simulation, hits the URLs randomly." );
-  puts("  -b, --benchmark         BENCHMARK, signifies no delay for time testing." );
-  puts("  -t, --time=NUMm         TIME based testing where \"m\" is the modifier S, M, or H" );
-  puts("                          no space between NUM and \"m\", ex: --time=1H, one hour test." );
-  puts("  -r, --reps=NUM          REPS, number of times to run the test, default is 25" );
-  puts("  -f, --file=FILE         FILE, change the configuration file to file." );
-  printf("  -R, --rc=FILE           RC, change the %src file to file.  Overrides\n",program_name);
-  puts("                          the SIEGERC environmental variable.");
-  printf("  -l, --log               LOG, logs the transaction to PREFIX/var/%s.log\n", program_name);
-  puts("  -m, --mark=\"text\"       MARK, mark the log file with a string separator." );
-  puts("  -d, --delay=NUM         Time DELAY, random delay between 1 and num designed" );
-  puts("                          to simulate human activity. Default value is 3" );
+  puts("  -i, --internet          INTERNET user simulation, hits URLs randomly." );
+  puts("  -b, --benchmark         BENCHMARK: no delays between requests." );
+  puts("  -t, --time=NUMm         TIMED testing where \"m\" is modifier S, M, or H" );
+  puts("                          ex: --time=1H, one hour test." );
+  puts("  -r, --reps=NUM          REPS, number of times to run the test." );
+  puts("  -f, --file=FILE         FILE, select a specific URLS FILE." );
+  printf("  -R, --rc=FILE           RC, specify an %src file\n",program_name);
+  puts("  -l, --log[=FILE]        LOG to FILE. If FILE is not specified, the");
+  printf("                          default is used: PREFIX/var/%s.log\n", program_name);
+  puts("  -m, --mark=\"text\"       MARK, mark the log file with a string." );
+  puts("  -d, --delay=NUM         Time DELAY, random delay before each requst");
+  puts("                          between 1 and NUM. (NOT COUNTED IN STATS)");
   puts("  -H, --header=\"text\"     Add a header to request (can be many)" ); 
   puts("  -A, --user-agent=\"text\" Sets User-Agent in request" ); 
+  puts("");
+  puts(copyright);
   /**
    * our work is done, exit nicely
    */
@@ -165,7 +165,7 @@ parse_rc_cmdline(int argc, char *argv[])
   strcpy(my.rc, "");
   
   while( a > -1 ){
-    a = getopt_long(argc, argv, "VhvCDglibr:t:f:d:c:u:m:H:R:A:", long_options, (int*)0);
+    a = getopt_long(argc, argv, "VhvCDgl::ibr:t:f:d:c:m:H:R:A:", long_options, (int*)0);
     if(a == 'R'){
       strcpy(my.rc, optarg);
       a = -1;
@@ -184,7 +184,7 @@ parse_cmdline(int argc, char *argv[])
 {
   int c = 0;
   int nargs;
-  while((c = getopt_long( argc, argv, "VhvCDglibr:t:f:d:c:u:m:H:R:A:", 
+  while((c = getopt_long( argc, argv, "VhvCDgl::ibr:t:f:d:c:m:H:R:A:",   
           long_options, (int *)0)) != EOF){
   switch(c){
       case 'V':
@@ -220,6 +220,10 @@ parse_cmdline(int argc, char *argv[])
         break;
       case 'l':
         my.logging = TRUE;
+        if (optarg) {
+          my.logfile[strlen(optarg)] = '\0';
+          strncpy(my.logfile, optarg, strlen(optarg));
+        } 
         break;
       case 'm':
         my.mark    = TRUE;
@@ -244,11 +248,6 @@ parse_cmdline(int argc, char *argv[])
         if(optarg == NULL) break; /*paranoia*/
         strncpy(my.file, optarg, strlen(optarg));
         break;
-      case 'u':
-        printf("-u has been deprecated.\n");
-        display_help(); 
-        exit(1);
-        break;
       case 'A':
         strncpy(my.uagent, optarg, 255);
         break;
@@ -260,8 +259,8 @@ parse_cmdline(int argc, char *argv[])
       case 'H':
         {
           if(!strchr(optarg,':')) NOTIFY(FATAL, "no ':' in http-header");
-          if((strlen(optarg) + strlen(my.extra) + 3) > 512)
-              NOTIFY(FATAL, "too many headers");
+          if((strlen(optarg) + strlen(my.extra) + 3) > 2048)
+              NOTIFY(FATAL, "header is too large");
           strcat(my.extra,optarg);
           strcat(my.extra,"\015\012");
         }
@@ -310,48 +309,48 @@ main(int argc, char *argv[])
   memset(&my, 0, sizeof(struct CONFIG));
 
   parse_rc_cmdline(argc, argv); 
-  if(init_config() < 0){        /* defined in init.h   */
+  if (init_config() < 0) {      /* defined in init.h   */
     exit( EXIT_FAILURE );       /* polly was a girl... */
   } 
   parse_cmdline(argc, argv);    /* defined above       */
   ds_module_check();            /* check config integ  */
-
-  if(my.get){
+  
+  if (my.get) {
     my.cusers  = 1;
     my.reps    = 1;
     my.logging = FALSE;
     my.bench   = TRUE;
   } 
 
-  if(my.config){
+  if (my.config) {
     show_config(TRUE);    
   }
 
-  if(my.url != NULL){
+  if (my.url != NULL) {
     my.length = 1; 
   } else { 
     my.length = read_cfg_file(lines, my.file); 
   }
 
-  if(my.reps < 0){
+  if (my.reps < 0) {
     my.reps = my.length;
   }
 
-  if(my.length == 0){ 
+  if (my.length == 0) { 
     display_help();
   }
 
   /* cookie is an EXTERN, defined in setup */ 
   cookie = xcalloc(sizeof(COOKIE), 1); 
   cookie->first = NULL;
-  if((result = pthread_mutex_init( &(cookie->mutex), NULL)) !=0){
+  if ((result = pthread_mutex_init( &(cookie->mutex), NULL)) !=0) {
     NOTIFY(FATAL, "pthread_mutex_init" );
   } 
 
   /* memory allocation for threads and clients */
   urls   = xmalloc(my.length * sizeof(URL));
   client = xcalloc(my.cusers, sizeof(CLIENT));
-  if((crew = new_crew(my.cusers, my.cusers, FALSE)) == NULL){
+  if ((crew = new_crew(my.cusers, my.cusers, FALSE)) == NULL) {
     NOTIFY(FATAL, "unable to allocate memory for %d simulated browser", my.cusers);  
   }
 
@@ -360,8 +359,11 @@ main(int argc, char *argv[])
    * command line or file, and add them
    * to the urls struct.
    */
-  if(my.url != NULL){
-    urls[0]   =  add_url(my.url, 1);         /* from command line  */
+  if (my.url != NULL) {
+    urls[0]  =  add_url(my.url, 1);          /* from command line  */
+    if (urls[0] == NULL) {
+      NOTIFY(FATAL, "URL is invalid or unsupported");
+    }
   } else { 
     for(x = 0; x < my.length; x ++){
       urls[x] =  add_url(lines->line[x], x); /* from urls.txt file */
@@ -373,12 +375,12 @@ main(int argc, char *argv[])
    * to the user and prepare for verbose 
    * output if necessary.
    */
-  if(!my.get){
+  if (!my.get) {
     fprintf(stderr, "** "); 
     display_version(FALSE);
     fprintf(stderr, "** Preparing %d concurrent users for battle.\n", my.cusers);
     fprintf(stderr, "The server is now under siege...");
-    if(my.verbose){ fprintf(stderr, "\n"); }
+    if (my.verbose) { fprintf(stderr, "\n"); }
   }
 
   /**
@@ -414,11 +416,11 @@ main(int argc, char *argv[])
    * ctrl-C (sigterm) and the timer thread sends
    * sigterm to cease on time out.
    */
-  if((result = pthread_create(&cease, NULL, (void*)sig_handler, (void*)crew)) < 0){
+  if ((result = pthread_create(&cease, NULL, (void*)sig_handler, (void*)crew)) < 0) {
     NOTIFY(FATAL, "failed to create handler: %d\n", result);
   }
-  if(my.secs > 0){
-    if((result = pthread_create(&timer, NULL, (void*)siege_timer, (void*)cease)) < 0){
+  if (my.secs > 0) {
+    if ((result = pthread_create(&timer, NULL, (void*)siege_timer, (void*)cease)) < 0) {
       NOTIFY(FATAL, "failed to create handler: %d\n", result);
     } 
   }
@@ -428,7 +430,7 @@ main(int argc, char *argv[])
   /**
    * loop until my.cusers and create a corresponding thread...
    */  
-  for(x = 0; x < my.cusers && crew_get_shutdown(crew) != TRUE; x++){
+  for (x = 0; x < my.cusers && crew_get_shutdown(crew) != TRUE; x++) {
     client[x].id              = x; 
     client[x].bytes           = 0;
     client[x].time            = 0.0;
@@ -443,7 +445,7 @@ main(int argc, char *argv[])
     client[x].auth.type.proxy = BASIC;
     client[x].rand_r_SEED     = pthread_rand_np(&randrseed);
     result = crew_add(crew, (void*)start_routine, &(client[x]));
-    if(result == FALSE){ 
+    if (result == FALSE) { 
       my.verbose = FALSE;
       fprintf(stderr, "Unable to spawn additional threads; you may need to\n");
       fprintf(stderr, "upgrade your libraries or tune your system in order\n"); 
@@ -462,8 +464,8 @@ main(int argc, char *argv[])
    * collect all the data from all the threads that
    * were spawned by the run.
    */
-  for(x = 0; x < ((crew_get_total(crew) > my.cusers || 
-                   crew_get_total(crew)==0 ) ? my.cusers : crew_get_total(crew)); x++){
+  for (x = 0; x < ((crew_get_total(crew) > my.cusers || 
+                    crew_get_total(crew)==0 ) ? my.cusers : crew_get_total(crew)); x++) {
     data_increment_count(D, client[x].hits);
     data_increment_bytes(D, client[x].bytes);
     data_increment_total(D, client[x].time);
@@ -484,24 +486,25 @@ main(int argc, char *argv[])
    * cleanup crew
    */ 
   crew_destroy(crew);
-  for(x = 0; x < my.length; x++) {
-    if(urls[x] != NULL){
-       xfree(urls[x]->pathname);
-       xfree(urls[x]->hostname);
-       xfree(urls[x]);
-     }
-   }
-  for(x = 0; x < my.cusers; x++){
+  for (x = 0; x < my.length; x++) {
+    if (urls[x] != NULL) {
+      xfree(urls[x]->pathname);
+      xfree(urls[x]->hostname);
+      xfree(urls[x]);
+    }
+  }
+  for (x = 0; x < my.cusers; x++) {
     digest_challenge_destroy(client[x].auth.wwwchlg);
     digest_credential_destroy(client[x].auth.wwwcred);
     digest_challenge_destroy(client[x].auth.proxychlg);
     digest_credential_destroy(client[x].auth.proxycred);
   }
+  array_destroy(my.lurl);
   xfree(client);
   xfree(urls);
 
-  if(my.get){
-    if(data_get_count(D) > 0){
+  if (my.get) {
+    if (data_get_count(D) > 0) {
       exit(EXIT_SUCCESS);
     } else {
       printf("[done]\n");
@@ -514,7 +517,7 @@ main(int argc, char *argv[])
    * this does NOT affect performance stats.
    */
   pthread_usleep_np(10000);
-  if(my.verbose)
+  if (my.verbose)
     fprintf(stderr, "done.\n");
   else
     fprintf(stderr, "\b      done.\n");
@@ -522,7 +525,7 @@ main(int argc, char *argv[])
   /**
    * prepare and print statistics.
    */
-  if(my.failures > 0 && my.failed >= my.failures){
+  if (my.failures > 0 && my.failed >= my.failures) {
     fprintf(stderr, "%s aborted due to excessive socket failure; you\n", program_name);
     fprintf(stderr, "can change the failure threshold in $HOME/.%src\n", program_name);
   }
@@ -539,7 +542,7 @@ main(int argc, char *argv[])
   fprintf(stderr, "Throughput:\t\t%12.2f MB/sec\n",        data_get_throughput(D));
   fprintf(stderr, "Concurrency:\t\t%12.2f\n",              data_get_concurrency(D));
   fprintf(stderr, "Successful transactions:%12u\n",        data_get_code(D)); 
-  if(my.debug){
+  if (my.debug) {
     fprintf(stderr, "HTTP OK received:\t%12u\n",             data_get_ok200(D));
   }
   fprintf(stderr, "Failed transactions:\t%12u\n",          my.failed);
@@ -550,23 +553,23 @@ main(int argc, char *argv[])
   if(my.logging) log_transaction(D);
 
   data_destroy(D);
-  if(my.url == NULL){
-    for(x = 0; x < my.length; x++)
-       xfree(lines->line[x]);
+  if (my.url == NULL) {
+    for (x = 0; x < my.length; x++)
+      xfree(lines->line[x]);
     xfree(lines->line);
     xfree(lines);
   } else {
     xfree(lines->line);
     xfree(lines);
   }
-  if(my.auth.encode != NULL)
+  if (my.auth.encode != NULL)
     xfree(my.auth.encode);
-  if(my.proxy.hostname != NULL)
+  if (my.proxy.hostname != NULL)
     xfree(my.proxy.hostname);
-  if(my.proxy.encode != NULL)
+  if (my.proxy.encode != NULL)
     xfree(my.proxy.encode);
 
-  while(my.auth.head != NULL) {
+  while (my.auth.head != NULL) {
     struct LOGIN *current;
     current = my.auth.head;
     my.auth.head = current->next;
@@ -575,7 +578,7 @@ main(int argc, char *argv[])
     xfree(current->realm);
     xfree(current);
   }
-  while(my.proxy.head != NULL) {
+  while (my.proxy.head != NULL) {
     struct LOGIN *current;
     current = my.proxy.head;
     my.proxy.head = current->next;
@@ -587,8 +590,8 @@ main(int argc, char *argv[])
 
   pthread_mutex_destroy( &(cookie->mutex));
   /* should probably take a deeper look at cookie content to free it */
-  xfree(cookie);
-  xfree(my.url);
+  xfree (cookie);
+  xfree (my.url);
 
   exit(EXIT_SUCCESS);  
 } /* end of int main **/

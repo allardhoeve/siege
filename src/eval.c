@@ -39,13 +39,14 @@ evaluate(HASH hash_table, char *buf)
   char final[BUFSIZE];
   char *ptr;
   char *string;
+  const char *scan;
   
   char *result = xrealloc(buf, BUFSIZE * sizeof(char));
   if(result != NULL)
     buf = result;
 
-  const char *scan = strchr( buf, '$') + 1;
-  len = (strlen(buf) - strlen(scan)) -1;
+  scan = strchr(buf, '$') + 1;
+  len  = (strlen(buf) - strlen(scan)) -1;
  
   if(scan[0] == '{' || scan[0] == '(')
     scan++;
