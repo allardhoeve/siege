@@ -1,3 +1,14 @@
+siege (2.69-2) unstable; urgency=low
+
+  * New upstream version (closes: #590118).
+  * Remove debian/patches/bombardment.in-fix-arithmetic.diff (merged
+    upstream).
+  * debian/rules unnecessary export removed.
+  * debian/control Standards-Version increased to 3.9.1, no changes
+    required.
+
+ -- Josue Abarca <jmaslibre@debian.org.gt>  Tue, 27 Jul 2010 11:00:08 -0600
+
 siege (2.69-1) unstable; urgency=low
 
   * New upstream release. (closes: #553231)
