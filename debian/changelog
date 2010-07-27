@@ -10,8 +10,9 @@ siege (2.69-2) unstable; urgency=low
     required.
   * debian/copyright updated.
   * debian/dirs 'usr/bin' removed because it is unnecessary.
+  * debian/docs AUTHORS added.
 
- -- Josue Abarca <jmaslibre@debian.org.gt>  Tue, 27 Jul 2010 11:00:08 -0600
+ -- Josue Abarca <jmaslibre@debian.org.gt>  Tue, 27 Jul 2010 12:00:00 -0600
 
 siege (2.69-1) unstable; urgency=low
 
