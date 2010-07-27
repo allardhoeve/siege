@@ -8,6 +8,7 @@ siege (2.69-2) unstable; urgency=low
     - Build dependency on automake1.9 added.
   * debian/control Standards-Version increased to 3.9.1, no changes
     required.
+  * debian/copyright updated.
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Tue, 27 Jul 2010 11:00:08 -0600
 

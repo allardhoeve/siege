@@ -9,7 +9,7 @@ Upstream Authors:
 
 Copyright: 
 
-    Copyright (C) 2000-2009 Jeffrey Fulmer <jeff@joedog.org>
+    Copyright (C) 2000-2010 Jeffrey Fulmer <jeff@joedog.org>
 
 License:
 
@@ -79,7 +79,7 @@ and is licensed as follows:
  
 src/cookie.c is:
 
-    Copyright (C) 2000-2007 Jeffrey Fulmer <jeff@joedog.org> et al.
+    Copyright (C) 2000-2009 Jeffrey Fulmer <jeff@joedog.org> et al.
     Copyright (C) 2002 the University of Kanas.
 
 and is licensed under the GPL version 2, see above.
@@ -91,33 +91,17 @@ src/date.c is:
 
 and is licensed under the GPL version 2, see above.
 
-src/install.sh is:
-
-    Copyright (C) 1991 Massachusetts Institute of Technology.
-
-and is licensed as follows:
-
-    Permission to use, copy, modify, distribute, and sell this software and its
-    documentation for any purpose is hereby granted without fee, provided that
-    the above copyright notice appear in all copies and that both that
-    copyright notice and this permission notice appear in supporting
-    documentation, and that the name of M.I.T. not be used in advertising or
-    publicity pertaining to distribution of the software without specific,
-    written prior permission.  M.I.T. makes no representations about the
-    suitability of this software for any purpose.  It is provided "as is"
-    without express or implied warranty.
-
 utils/bombardment.in is:
 
     Copyright (C) 2001 Peter J. Hutnick.
 
 and is licensed under the GPL version 2, see above.
 
-utils/install-sh is:
+install-sh and utils/install-sh are:
 
     Copyright (C) 1994 X Consortium.
 
-and is licensed as follows:
+and are licensed as follows:
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to
@@ -141,7 +125,7 @@ and is licensed as follows:
     ings in this Software without prior written authorization from the X Consor-
     tium.
 
-lib/joedog/sprintf.c is:
+lib/joedog/snprintf.c is:
 
     Copyright (C) 1999 Mark Martinec <mark.martinec@ijs.si>
 
@@ -160,5 +144,6 @@ The Debian packaging is:
 
     Copyright (C) 2007 Jose Carlos Medeiros <debian@psabs.com.br>
     Copyright (C) 2008 Tristan Greaves <tristan@extricate.org>
+    Copyright (C) 2010 Josue Abarca <jmaslibre@debian.org.gt>
 
 and is licensed under the GPL version 2, see above.
