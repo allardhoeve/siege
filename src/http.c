@@ -29,7 +29,6 @@
 #include <joedog/defs.h>
 
 #define MAXFILE 10240
-#define REQBUF  40960 
 
 private char *__parse_pair(char **str);
 private char *__dequote(char *str);
@@ -103,7 +102,7 @@ http_get(CONN *C, URL *U)
   char *keepalive;
   char authwww[512];
   char authpxy[512];
-  char request[REQBUF];  
+  char request[REQBUF+MAX_COOKIE_SIZE+8];  
   char portstr[16];
   char fullpath[4096];
   char cookie[MAX_COOKIE_SIZE+8];
@@ -209,7 +208,7 @@ http_post(CONN *C, URL *U)
   int  rlen;
   char authwww[128];
   char authpxy[128]; 
-  char request[REQBUF]; 
+  char request[REQBUF+POSTBUF+MAX_COOKIE_SIZE+8]; 
   char portstr[16];
   char *protocol; 
   char *keepalive;

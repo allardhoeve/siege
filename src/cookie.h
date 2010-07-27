@@ -61,6 +61,7 @@ BOOLEAN  delete_cookie(pthread_t id, char *name);
 int      delete_all_cookies(pthread_t id);
 int      check_cookie(char *domain, char *value);
 char     *get_cookie_header(pthread_t id, char *domain, char *cookie);
+void     display_cookies();
 
 extern COOKIE *cookie;
 

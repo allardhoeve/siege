@@ -40,6 +40,9 @@
 # define portable_vsnprintf vsnprintf
 #endif
 
+#define REQBUF  43008
+#define POSTBUF 63488
+
 /**
  * HTTP headers structure.
  */

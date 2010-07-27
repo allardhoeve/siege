@@ -1,5 +1,5 @@
 .ig \"-*- Siege -*-
-Copyright (C) 2000-2006 by %_AUTHOR%
+Copyright (C) 2000-2010 by %_AUTHOR%
 
 Siege is distributed under the terms of the GNU GPL.
 
@@ -45,7 +45,7 @@ CONFIGURATION, prints the current configuration in the $HOME/.siegerc file.  Edi
 VERBOSE, prints the HTTP return status and the GET request to  the  screen.   Useful when reading  a series of  URLs  from  a configuration file.  This flag allows you to  witness  the  progress  of  the test.
 .TP
 \fB\-g\fR, \fB\-\-get\fR
-GET, pull down headers from the server and display HTTP transaction. Great for web application debugging. Requires a URL be passed to siege on the command line. 
+GET, pull down HTTP headers and display the transaction. Great for web server configuration debugging. Requires a URL be passed to siege on the command line. 
 .TP
 \fB\-c NUM\fR, \fB\-\-concurrent=NUM\fR
 CONCURRENT, allows you to set the concurrent number of simulated users to num. The number of simulated users is limited to the resources on the computer running siege.
@@ -65,8 +65,8 @@ REPS, allows you to run the siege for NUM repetitions. If \-\-reps=once, then si
 \fB\-t NUMm\fR, \fB\-\-time=NUMm\fR
 TIME, allows you to run the test for a selected period of time.  The format is "NUMm", where NUM is a time unit and the "m" modifier is either S, M, or H for seconds, minutes and hours.  To run siege for an hour, you could select any one of the following combinations: \-t3600S, \-t60M, \-t1H.  The modifier is not case sensitive, but it does require no space between the number and itself.
 .TP
-\fB\-l\fR, \fB\-\-log\fR
-LOG, log stats to SIEGE_HOME/var/siege.log. If you've installed siege in /usr/local, then the siege.log is /usr/local/var/siege.log. This option logs the final statistics reported when siege successfully completes its test. You can edit $HOME/.siegerc to change the location of the siege.log file.
+\fB\-l [FILE]\fR, \fB\-\-log[=FILE]\fR
+LOG transaction stats to FILE. The argument is optional. If FILE is not specified, then siege logs the transaction to SIEGE_HOME/var/siege.log. If siege is installed in /usr/local, then the default siege.log is /usr/local/var/siege.log. This option logs the final statistics reported when siege successfully completes its test. You can edit $HOME/.siegerc to change the location of the siege.log file.
 .TP
 \fB\-m MESSAGE\fR, \fB\-\-mark=MESSAGE\fR
 MARK, mark the log file with a separator.  This option will allow you to separate your log file entries with header information.  This is especially useful when testing two different servers.  It is not necessary to use both the \-m option and the \-l option.  \-m assumes \-l so it marks and logs the transaction. If the MESSAGE has spaces in it, make sure that you put it in quotes.

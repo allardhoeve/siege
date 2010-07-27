@@ -1,7 +1,7 @@
 ##
 ## src/Makefile.am
 ##
-## Copyright (C) 2000-2007 by
+## Copyright (C) 2000-2010 by
 ## Jeffrey Fulmer - <jeff@joedog.org>, et al.
 ## This file is distributed as part of Siege
 ##
@@ -37,6 +37,7 @@ siege_LDADD        =   $(top_srcdir)/lib/joedog/libjoedog.la
 siege_DEPENDENCIES =   $(top_srcdir)/lib/joedog/libjoedog.la 
 
 siege_SOURCES      =   \
+array.c    array.h     \
 auth.c     auth.h      \
 base64.c   base64.h    \
 client.c   client.h    \

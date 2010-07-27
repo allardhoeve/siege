@@ -25,25 +25,34 @@
 #include <time.h>  
 #include <stdarg.h>
 
+#define BLACK      0
+#define RED        1
+#define GREEN      2
+#define YELLOW     3
+#define BLUE       4
+#define MAGENTA    5
+#define CYAN       6
+#define WHITE      7
+
 /**
  * Error notification
  */
 typedef enum {
-  WARNING   = 0,
-  ERROR     = 1,
-  FATAL     = 2
+  DEBUG     = 0,
+  WARNING   = 1,
+  ERROR     = 2,
+  FATAL     = 3
 } LEVEL;
 
 void OPENLOG(char *program_name);
 void CLOSELOG(void);
 void SYSLOG(LEVEL L, const char *fmt, ...);
 void NOTIFY(LEVEL L, const char *fmt, ...);
+void DISPLAY(int color, const char *fmt, ...);
 
 /**
  * Memory management
  */
-#define SIEGEmalloc(x) joe_malloc( x, __FILE__, __LINE__)
-
 void * xrealloc(void *, size_t);
 void * xmalloc (size_t);
 void * xcalloc (size_t, size_t); 
@@ -79,10 +88,12 @@ extern int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list 
 #define vsnprintf portable_vsnprintf
 #endif
 
+#ifndef __CYGWIN__
 extern int asprintf  (char **ptr, const char *fmt, /*args*/ ...);
 extern int vasprintf (char **ptr, const char *fmt, va_list ap);
 extern int asnprintf (char **ptr, size_t str_m, const char *fmt, /*args*/ ...);
 extern int vasnprintf(char **ptr, size_t str_m, const char *fmt, va_list ap);
+#endif/*__CYGWIN__*/
 
 /**
  * chomps the newline character off

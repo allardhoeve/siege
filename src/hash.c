@@ -1,7 +1,7 @@
 /**
  * Hash Table
  *
- * Copyright (C) 2003-2007 by
+ * Copyright (C) 2003-2010 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  *
  * This program is free software; you can redistribute it and/or modify
@@ -44,13 +44,13 @@ struct HASH_T
  * local prototypes
  */
 int  hash_lookup(HASH this, char *key);
-static void hash_resize( HASH this ); 
+static void hash_resize(HASH this); 
 
 /**
  * returns int hash key for the table
  */
 int
-hash_genkey( int size, char *str )
+hash_genkey(int size, char *str)
 {
   return ((int)(*str)) % size;
 }
@@ -60,7 +60,7 @@ hash_genkey( int size, char *str )
  * hash table. 
  */
 HASH 
-new_hash( ssize_t size )
+new_hash(ssize_t size)
 {
   HASH this;
 
@@ -68,7 +68,7 @@ new_hash( ssize_t size )
   this->size    = 2;
   this->entries = 0;
   this->index   = 0;
-  while( this->size < size ){
+  while (this->size < size) {
     this->size <<= 1;
   }
   this->table = (NODE**)calloc(this->size * sizeof(NODE*), 1);
@@ -76,12 +76,12 @@ new_hash( ssize_t size )
 }
 
 void
-hash_reset(HASH this, ssize_t size )
+hash_reset(HASH this, ssize_t size)
 {
   this->size    = 2;
   this->entries = 0;
 
-  while( this->size < size ){
+  while (this->size < size) {
     this->size <<= 1;
   }
 
@@ -96,25 +96,25 @@ hash_reset(HASH this, ssize_t size )
  * necessary.
  */
 static void
-hash_resize( HASH this ) 
+hash_resize(HASH this) 
 {
   NODE *tmp;
   NODE *last_node; 
   NODE **last_table;
   int  x, hash, size;
  
-  size        = this->size; 
+  size       = this->size; 
   last_table = this->table;
 
   hash_reset(this, size*2);
 
   x = 0;
-  while( x < size ){
+  while (x < size) {
     last_node = last_table[x]; 
-    while( last_node != NULL ){
+    while (last_node != NULL) {
       tmp       = last_node;
       last_node = last_node->next;
-      hash      = hash_genkey( this->size, (char*)tmp->key );
+      hash      = hash_genkey(this->size, (char*)tmp->key);
       tmp->next = this->table[hash];
       this->table[hash] = tmp;
       this->entries++;
@@ -131,22 +131,22 @@ hash_resize( HASH this )
  * len is the size of void pointer.
  */
 void
-hash_add( HASH this, char *key, char *value )
+hash_add(HASH this, char *key, char *value)
 {
   int  x;
   NODE *node;
 
-  if( hash_lookup(this, key) == 1 )
+  if (hash_lookup(this, key) == 1)
     return;
 
-  if( this->entries >= this->size/2 )
-    hash_resize( this );
+  if (this->entries >= this->size/2)
+    hash_resize(this);
 
   x = hash_genkey(this->size, key);
-  node        = xmalloc(sizeof(NODE));
-  node->key   = strdup(key);
-  node->value = strdup(value);
-  node->next  = this->table[x]; 
+  node           = xmalloc(sizeof(NODE));
+  node->key      = strdup(key);
+  node->value    = strdup(value);
+  node->next     = this->table[x]; 
   this->table[x] = node;
   this->entries++;
   return;
@@ -163,8 +163,8 @@ hash_get(HASH this, char *key)
   NODE *node;
 
   x = hash_genkey(this->size, key);
-  for(node = this->table[x]; node != NULL; node = node->next){
-    if(!strcmp( node->key, key)){
+  for (node = this->table[x]; node != NULL; node = node->next) {
+    if (!strcmp( node->key, key)) {
       return(node->value);
     }
   }
@@ -202,11 +202,11 @@ hash_get_keys(HASH this)
   char **keys;
 
   keys = (char**)malloc(sizeof( char*) * this->entries);
-  for(x = 0; x < this->size; x ++){
+  for (x = 0; x < this->size; x ++) {
     for(node = this->table[x]; node != NULL; node = node->next){
       keys[i] = (char*)malloc(128);
-      memset( keys[i], 0, sizeof(keys[i]));
-      memcpy( keys[i], (char*)node->key, strlen(node->key));
+      memset(keys[i], 0, sizeof(keys[i]));
+      memcpy(keys[i], (char*)node->key, strlen(node->key));
       keys[i][strlen(node->key)] = 0;
       i++;
     }
@@ -218,8 +218,8 @@ void
 hash_free_keys(HASH this, char **keys)
 {
   int x;
-  for(x = 0; x < this->entries; x ++)
-    if(keys[x] != NULL){
+  for (x = 0; x < this->entries; x ++)
+    if (keys[x] != NULL) {
       char *tmp = keys[x];
       xfree(tmp);
     }
@@ -238,20 +238,20 @@ hash_destroy(HASH this)
   int x;
   NODE *t1, *t2;
 
-  for(x = 0; x < this->size; x++){
+  for (x = 0; x < this->size; x++) {
     t1 = this->table[x];
-    while(t1 != NULL){
+    while (t1 != NULL) {
       t2 = t1->next;
-      if(t1->key != NULL)
+      if (t1->key != NULL)
         xfree(t1->key);
-      if(t1->value != NULL)
+      if (t1->value != NULL)
         xfree(t1->value);
       xfree(t1);
       t1 = t2;      
     } 
     this->table[x] = NULL;
   }
-  if(this->table != NULL){
+  if (this->table != NULL) {
     xfree(this->table);
     memset(this, 0, sizeof(HASH));
   } 

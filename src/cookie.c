@@ -25,6 +25,7 @@
 #include <setup.h>
 #include <cookie.h>
 #include <date.h>
+#include <util.h>
 
 typedef struct 
 {
@@ -71,6 +72,8 @@ parse_cookie(char *cookiestr, PARSED_COOKIE* ck)
 
   *cookiestr++ = 0;
 
+  if (lval != NULL) debug("%s:%d accepting cookie name:  %s", __FILE__, __LINE__, lval);
+  if (rval != NULL) debug("%s:%d accepting cookie value: %s", __FILE__, __LINE__, rval);
   ck->name  = (lval != NULL) ? xstrdup(lval) : NULL;
   ck->value = (rval != NULL) ? xstrdup(rval) : NULL; 
   /* get the biggest possible positive value */
@@ -144,6 +147,7 @@ add_cookie(pthread_t id, char *host, char *cookiestr)
   parse_cookie(cookiestr, &ck);
   name = ck.name;
   value = ck.value;
+
   if(( name == NULL || value == NULL )) return -1;
 
   pthread_mutex_lock(&(cookie->mutex)); 
@@ -213,7 +217,7 @@ delete_cookie(pthread_t id, char *name)
           pre->next = cur->next;
         }
         res = TRUE;
-        if(my.debug){ printf("Cookie deleted: %ld => %s\n",(long)id,name); fflush(stdout); }
+        debug("%s:%d cookie deleted: %ld => %s\n",__FILE__, __LINE__, (long)id,name); 
         break;
       }
     } else {
@@ -234,11 +238,11 @@ delete_all_cookies(pthread_t id)
   CNODE  *cur, *pre;
   
   pthread_mutex_lock(&(cookie->mutex));
-  for( pre=NULL, cur=cookie->first; cur != NULL; pre=cur, cur=cur->next ){
-    if(cur->threadID == id){
-      if(my.debug){ printf("Cookie deleted: %ld => %s\n",(long)id,cur->name); fflush(stdout); }
+  for (pre=NULL, cur=cookie->first; cur != NULL; pre=cur, cur=cur->next) {
+    if (cur->threadID == id) {
+      debug("%s:%d cookie deleted: %ld => %s\n",__FILE__, __LINE__, (long)id,cur->name); 
       /* delete this cookie */
-      if( cur == cookie->first ){
+      if (cur == cookie->first) {
         /* deleting the first */
         cookie->first = cur->next;
         pre = cookie->first;
@@ -282,25 +286,30 @@ get_cookie_header(pthread_t id, char *host, char *newton)
   now = time(NULL);
 
   for(cur=pre=cookie->first; cur != NULL; pre=cur, cur=cur->next){
-    dlen = cur->domain ? strlen( cur->domain ) : 0;
-    if(cur->threadID == id){
-      if(!strcasecmp(cur->domain, host)){
-        if(cur->expires <= now){
+    /**
+     * for the purpose of matching, we'll ignore the leading '.'
+     */
+    const char *domainptr = cur->domain;
+    if (*domainptr == '.') ++domainptr;
+    dlen = domainptr ? strlen(domainptr) : 0;
+    if (cur->threadID == id) {
+      if (!strcasecmp(domainptr, host)) {
+        if (cur->expires <= now) {
           delete_cookie(cur->threadID, cur->name);
           continue;
         }
-        if(strlen(oreo) > 0)
+        if (strlen(oreo) > 0)
           strncat(oreo, ";",      sizeof(oreo) - 10 - strlen(oreo));
         strncat(oreo, cur->name,  sizeof(oreo) - 10 - strlen(oreo));
         strncat(oreo, "=",        sizeof(oreo) - 10 - strlen(oreo));
         strncat(oreo, cur->value, sizeof(oreo) - 10 - strlen(oreo));
       }
-      if((dlen < hlen) && (!strcasecmp(host + (hlen - dlen), cur->domain))){
-        if(cur->expires <= now){
+      if ((dlen < hlen) && (!strcasecmp(host + (hlen - dlen), domainptr))) {
+        if (cur->expires <= now) {
           delete_cookie(cur->threadID, cur->name);
           continue;
         }
-        if(strlen(oreo) > 0)
+        if (strlen(oreo) > 0)
           strncat(oreo, ";",      sizeof(oreo) - 10 - strlen(oreo));
         strncat(oreo, cur->name,  sizeof(oreo) - 10 - strlen(oreo));
         strncat(oreo, "=",        sizeof(oreo) - 10 - strlen(oreo));
@@ -308,7 +317,7 @@ get_cookie_header(pthread_t id, char *host, char *newton)
       }
     }
   }
-  if(strlen(oreo) > 0){
+  if (strlen(oreo) > 0) {
     strncpy(newton, "Cookie: ", 8);
     strncat(newton, oreo,       MAX_COOKIE_SIZE);
     strncat(newton, "\015\012", 2);
