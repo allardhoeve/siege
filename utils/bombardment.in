@@ -104,4 +104,4 @@ while [ $numruns -gt $i ]
 # Finally, we call siege2csv.pl to convert all the human-readable Siege
 # output to CSV, for easy spreadsheet usage.
  
-siege2csv siege.$serial
+siege2csv.pl siege.$serial
