@@ -35,3 +35,4 @@ EXTRA_DIST        =    KNOWNBUGS MACHINES README README.https README.solaris \
 
 DISTCLEANFILES    =    libtool config.status PLATFORM
 
+ACLOCAL_AMFLAGS = -I m4
