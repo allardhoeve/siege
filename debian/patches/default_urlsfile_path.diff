@@ -1,0 +1,15 @@
+--- a/src/init.c
++++ b/src/init.c
+@@ -99,8 +99,10 @@
+   }
+   
+   if(strlen(my.file) < 1){ 
+-    strcpy( my.file, SIEGE_HOME );
+-    strcat( my.file, "/etc/urls.txt" );
++    snprintf(
++      my.logfile, sizeof( my.file ),
++      "%s", CNF_FILE
++    );
+   }
+ 
+   if(strlen(my.uagent) < 1) 
