@@ -7,8 +7,8 @@
 -    strcpy( my.file, SIEGE_HOME );
 -    strcat( my.file, "/etc/urls.txt" );
 +    snprintf(
-+      my.logfile, sizeof( my.file ),
-+      "%s", CNF_FILE
++      my.file, sizeof( my.file ),
++      "%s", URL_FILE
 +    );
    }
  
