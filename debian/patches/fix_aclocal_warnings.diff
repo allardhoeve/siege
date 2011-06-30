@@ -1,3 +1,11 @@
+Description: Update some macros in acinclude.m4
+ aclocal1.9 is executed when automake1.9 is present in the system, in
+ order to regenerate the configure and makefiles. This patch fixes
+ some warnings from aclocal1.9.
+Author: Josue Abarca <jmaslibre@debian.org.gt>
+Forwarded: no
+Last-Update: 2011-06-30
+
 --- a/acinclude.m4
 +++ b/acinclude.m4
 @@ -287,7 +287,7 @@
