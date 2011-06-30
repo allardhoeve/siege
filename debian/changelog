@@ -6,7 +6,8 @@ siege (2.70-2) unstable; urgency=low
   * fix_aclocal_warnings.diff patch added in order to fix some aclocal's
     warnings in the acinclude.m4 file.
   * default_logfile_path.diff patch added in order to change the default
-    path of the log file to /var/log (closes: #610426).
+    path of the log file to /var/log. Thanks to Alexandre Anriot
+    (closes: #610426).
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 30 Jun 2011 04:08:13 -0600
 
