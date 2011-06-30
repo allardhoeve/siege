@@ -1,0 +1,50 @@
+Description: Update documentation about the default path of urls.txt
+ Siege installs the urls.txt in the $sysconfdir, this is /etc/siege/
+ in debian. This patch changes the man pages in order to show the
+ right path.
+Author: Josue Abarca <jmaslibre@debian.org.gt>
+Forwarded: not-needed
+Last-Update: 2011-06-30
+
+--- a/doc/layingsiege.7.in
++++ b/doc/layingsiege.7.in
+@@ -43,7 +43,7 @@
+ 
+ To create this example, I ran siege on my Sun workstation and I pounded a GNU/Linux Intel box, essentially a workstation.  The performance leaves a lot to be desired.  One indication that the server is struggling is the high concurrency.  The longer the transaction, the higher the concurrency.  This server is taking a while to complete the transaction and it continues to open new sockets to handle all the additional requests.  In truth the Linux box is suffering from a lack of RAM, it has about 200MB, hardly enough to be handling one hundred concurrent users. :-)
+ 
+-Now that we've stressed the URL(s) singly, we can add them to our main configuration file and stress them with the rest of the site.  The default URLs file is SIEGE_HOME/etc/urls.txt.
++Now that we've stressed the URL(s) singly, we can add them to our main configuration file and stress them with the rest of the site.  The default URLs file is /etc/siege/urls.txt.
+ 
+ Siege can allow websystems administrators a chance to see how their servers perform under duress.  I recommend running server performance monitoring tools while it is under siege to gage your hardware / software configurations.  The results can be surprising...
+ 
+--- a/doc/urls_txt.5.in
++++ b/doc/urls_txt.5.in
+@@ -21,7 +21,7 @@
+ \- URL database for regression testing
+ .SH INTRODUCTION
+ .LP
+-The urls.txt file is installed by default in SIEGE_HOME/etc/urls.txt.  When siege is invoked without a command line reference to a URL, then by default it looks for urls in that file.  The advantage of using the urls.txt file is two-fold: One, it frees you free retyping a url with every invocation.  And two, it allows you to conduct full site regression testing.
++The urls.txt file is installed by default in /etc/siege/urls.txt.  When siege is invoked without a command line reference to a URL, then by default it looks for urls in that file.  The advantage of using the urls.txt file is two-fold: One, it frees you free retyping a url with every invocation.  And two, it allows you to conduct full site regression testing.
+ 
+ When the urls.txt file is used, siege reads all the urls in that file into memory and runs through the list in one of two ways, sequentially or randomly. The default run is sequential from start to finish and back again until the \-\-reps or the \-\-time option has been satisfied.  With the \-i/\-\-internet option selected, siege runs through the file randomly simulating the stress applied by a community of internet users. \fR
+ .br
+--- a/doc/siege.1.in
++++ b/doc/siege.1.in
+@@ -78,7 +78,7 @@
+ RC, sets the siegerc file for the run. This option overrides the environment variable SIEGERC and the default resource file, $HOME/.siegerc
+ .TP
+ \fB\-f FILE\fR, \fB\-\-file=FILE\fR
+-FILE, the default URL file is SIEGE_HOME/etc/urls.txt.  To select a different URL file, use this  option,  i.e.,   siege \-f myurls.txt
++FILE, the default URL file is /etc/siege/urls.txt.  To select a different URL file, use this  option,  i.e.,   siege \-f myurls.txt
+ .TP
+ \fB\-A "User Agent"\fR, \fB\-\-user-agent="User Agent"\fR
+ AGENT, use this option to set the User-Agent in the request.
+@@ -114,7 +114,7 @@
+ .br
+ If you invoke the URL as a command line argument, you should probably place it in quotes.  Currently, it supports two protocols, http and https.  If a protocol is not specified, then siege assumes http.  The minimum URL requirement is this: servername.  That's it.  So if you're in the same domain as a server named shemp and shemp is in your host file or it is in DNS, then: "siege shemp" will stress http://shemp.yourdomain.net/index.html (assuming that "index.html" is the server specified index). To stress the same page using https protocol, the minimum URL requirement is this: https://shemp.  That URL specification will lay siege to https://shemp.yourdomain.net/index.html
+ .SH URLS FILE
+-To hit multiple URLs, place them in a single file.  The default URLs file is $SIEGE_HOME/etc/urls.txt.  [You may change that file with the \-f option, see above.] In that file list the URLs one per line:\fR 
++To hit multiple URLs, place them in a single file.  The default URLs file is /etc/siege/urls.txt.  [You may change that file with the \-f option, see above.] In that file list the URLs one per line:\fR
+ .br
+ # place all your comments behind hashes\fR 
+ .br
