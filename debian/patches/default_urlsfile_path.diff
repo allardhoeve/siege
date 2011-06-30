@@ -5,6 +5,7 @@ Author: Josue Abarca <jmaslibre@debian.org.gt>
 Bug-Debian: http://bugs.debian.org/610420
 Forwarded: no
 Last-Update: 2011-06-30
+
 --- a/src/init.c
 +++ b/src/init.c
 @@ -99,8 +99,10 @@

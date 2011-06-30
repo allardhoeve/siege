@@ -11,6 +11,8 @@ siege (2.70-2) unstable; urgency=low
     (closes: #610426).
   * default_urlsfie_path.diff patch added in order to change the deault
     path of urls.txt to /etc/siege (closes: #610420).
+  * update_doc_about_urls_file.diff patch added to update the default path
+    of urls.txt in the man pages.
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 30 Jun 2011 04:08:13 -0600
 
