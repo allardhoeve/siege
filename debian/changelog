@@ -8,6 +8,8 @@ siege (2.70-2) unstable; urgency=low
   * default_logfile_path.diff patch added in order to change the default
     path of the log file to /var/log. Thanks to Alexandre Anriot
     (closes: #610426).
+  * default_urlsfie_path.diff patch added in order to change the deault
+    path of urls.txt to /etc/siege (closes: #610420).
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 30 Jun 2011 04:08:13 -0600
 
