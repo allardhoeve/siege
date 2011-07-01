@@ -1,10 +1,10 @@
 Description: Update documentation about the default path of urls.txt
- Siege installs the urls.txt in the $sysconfdir, this is /etc/siege/
- in debian. This patch changes the man pages in order to show the
- right path.
+ The debian package of siege installs the urls.txt file in /etc/siege/
+ ($sysconfdir). This patch changes the man pages in order to show the
+ right path in debian.
 Author: Josue Abarca <jmaslibre@debian.org.gt>
 Forwarded: not-needed
-Last-Update: 2011-06-30
+Last-Update: 2011-07-01
 
 --- a/doc/layingsiege.7.in
 +++ b/doc/layingsiege.7.in
