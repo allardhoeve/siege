@@ -1,8 +1,5 @@
 siege (2.70-2) unstable; urgency=low
 
-  * debian/source/local-options created:
-    - Local option unapply-patches added.
-    - Local option abort-on-upstream-changes added.
   * fix_aclocal_warnings.diff patch added in order to fix some aclocal's
     warnings in the acinclude.m4 file (The configure and makefiles are
     regenerated if automake1.9 is present).
