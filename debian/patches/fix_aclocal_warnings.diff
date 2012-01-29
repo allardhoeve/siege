@@ -3,7 +3,7 @@ Description: Update some macros in acinclude.m4
  order to regenerate the configure and makefiles. This patch fixes
  some warnings from aclocal1.9.
 Author: Josue Abarca <jmaslibre@debian.org.gt>
-Forwarded: no
+Forwarded: yes
 Last-Update: 2011-06-30
 
 --- a/acinclude.m4
