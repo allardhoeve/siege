@@ -1,0 +1,20 @@
+Description: Siege provides a cli parameter
+ to turn the verbose mode on but there is no parameter to turn the
+ verbose mode off. This patch changes the default value of verbose to
+ false
+Author: Josue Abarca <jmaslibre@debian.org.gt>
+Bug-Debian: http://bugs.debian.org/610420
+Forwarded: no
+Last-Update: 2012-02-02
+
+--- a/doc/siegerc.in
++++ b/doc/siegerc.in
+@@ -19,7 +19,7 @@
+ # Signify verbose mode, true turns on verbose output
+ # ex: verbose = true|false
+ #
+-verbose = true
++verbose = false
+ 
+ #
+ # CSV Verbose format: with this option, you can choose 

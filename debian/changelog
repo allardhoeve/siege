@@ -10,8 +10,10 @@ siege (2.70-2) unstable; urgency=low
     path of urls.txt to /etc/siege (closes: #610420).
   * update_doc_about_urls_file.diff patch added to update the default path
     of urls.txt in the man pages.
+  * set_verbose_to_false.diff patch added in order to set verbose to false
+    by default.
 
- -- Josue Abarca <jmaslibre@debian.org.gt>  Thu, 30 Jun 2011 04:08:13 -0600
+ --
 
 siege (2.70-1) unstable; urgency=low
 
