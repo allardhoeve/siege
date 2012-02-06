@@ -14,7 +14,7 @@ siege (2.70-2) unstable; urgency=low
   * set_verbose_to_false.diff patch added in order to set verbose to false
     by default.
 
- --
+ -- Josue Abarca <jmaslibre@debian.org.gt>  Sun, 05 Feb 2012 22:30:25 -0600
 
 siege (2.70-1) unstable; urgency=low
 
