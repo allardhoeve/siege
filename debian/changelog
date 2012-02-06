@@ -3,9 +3,10 @@ siege (2.70-2) unstable; urgency=low
   * fix_aclocal_warnings.diff patch added in order to fix some aclocal's
     warnings in the acinclude.m4 file (The configure and makefiles are
     regenerated if automake1.9 is present).
-  * default_logfile_path.diff patch added in order to change the default
-    path of the log file to /var/log. Thanks to Alexandre Anriot
-    (closes: #610426).
+  * debian/rules override_dh_auto_configure modified in order to change
+    the default path of the log file.  (closes: #610426).
+  * default_logfile_path.diff patch added in order to document the path
+    change of the log file thanks to Alexandre Anriot.
   * default_urlsfie_path.diff patch added in order to change the deault
     path of urls.txt to /etc/siege (closes: #610420).
   * update_doc_about_urls_file.diff patch added to update the default path
