@@ -13,6 +13,9 @@ siege (2.70-2) unstable; urgency=low
     of urls.txt in the man pages.
   * set_verbose_to_false.diff patch added in order to set verbose to false
     by default.
+  * debian/control
+    + Standards-Version increased to 3.9.1, no changes required.
+    + Vcs-Git and Vcs-Browser fields updated
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Sun, 05 Feb 2012 22:30:25 -0600
 
