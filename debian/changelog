@@ -1,3 +1,10 @@
+siege (2.70-3) UNRELEASED; urgency=low
+
+  * setup.h.diff patch added in order to improve the definition of
+    INT_MAX. ((Closes: #665407)
+
+ --
+
 siege (2.70-2) unstable; urgency=low
 
   * fix_aclocal_warnings.diff patch added in order to fix some aclocal's

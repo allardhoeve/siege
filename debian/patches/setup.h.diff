@@ -1,0 +1,19 @@
+Description: Improve the definition of INT_MAX
+ The current definition of INT_MAX in setup.h can be problematic in
+ Debian GNU/kFreeBSD. This patch includes limits.h in order to improve
+ the definition of INT_MAX.
+Author: Christoph Egger <christoph@debian.org>
+Bug-Debian: http://bugs.debian.org/665407
+Forwarded: yes
+Last-Update: 2012-04-13
+
+--- a/src/setup.h
++++ b/src/setup.h
+@@ -33,6 +33,7 @@
+ #include <pthread.h>
+ #include <ctype.h>
+ #include <stdarg.h>
++#include <limits.h>
+ 
+ #if HAVE_SYS_WAIT_H
+ # include <sys/wait.h>
