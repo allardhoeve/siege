@@ -5,7 +5,7 @@ siege (2.70-3) UNRELEASED; urgency=low
   * debian/control Standards-Version increased to 3.9.1, no changes
     required.
 
- --
+ -- Josue Abarca <jmaslibre@debian.org.gt>  Sat, 14 Apr 2012 15:34:58 -0600
 
 siege (2.70-2) unstable; urgency=low
 
