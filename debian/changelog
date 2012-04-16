@@ -1,4 +1,4 @@
-siege (2.70-3) UNRELEASED; urgency=low
+siege (2.70-3) unstable; urgency=low
 
   * setup.h.diff patch added in order to improve the definition of
     INT_MAX. (Closes: #665407)
