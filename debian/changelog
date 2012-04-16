@@ -2,7 +2,7 @@ siege (2.70-3) unstable; urgency=low
 
   * setup.h.diff patch added in order to improve the definition of
     INT_MAX. (Closes: #665407)
-  * debian/control Standards-Version increased to 3.9.1, no changes
+  * debian/control Standards-Version increased to 3.9.3, no changes
     required.
 
  -- Josue Abarca <jmaslibre@debian.org.gt>  Sat, 14 Apr 2012 15:34:58 -0600
