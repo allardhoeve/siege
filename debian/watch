@@ -1,2 +1,3 @@
 version=3
-ftp://ftp.joedog.org/pub/siege/siege-(.*)\.tar\.gz
+
+http://joedog.org/pub/siege/siege-([0-9.]+)\.tar\.gz
