@@ -8,7 +8,7 @@
 	dh --with autotools_dev $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- --sysconfdir=/etc/siege --localstatedir=/var/log
+	dh_auto_configure -- $(shell dpkg-buildflags --export=configure) --sysconfdir=/etc/siege --localstatedir=/var/log
 override_dh_auto_install:
 	dh_auto_install -- sysconfdir=$(CURDIR)/debian/siege/etc/siege
 	# Do not use language-specific extension (policy).
