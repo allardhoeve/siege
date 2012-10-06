@@ -3,8 +3,10 @@ siege (2.70-4) unstable; urgency=low
   * Enable hardened build flags
     - debian/rules manual build flags setup replaced by dpkg-builflags
     - debian/control Build-Depend on dpkg-dev (>= 1.16.1~)
+  * debian/control New maintainer address. Thanks to Patrick Matthäi for
+    his sponsorships.
 
- -- Josue Abarca <jmaslibre@debian.org>  Sat, 06 Oct 2012 10:32:25 -0600
+ -- Josue Abarca <jmaslibre@debian.org>  Sat, 06 Oct 2012 10:47:10 -0600
 
 siege (2.70-3) unstable; urgency=low
 
