@@ -1,0 +1,11 @@
+--- a/src/init.c
++++ b/src/init.c
+@@ -48,7 +48,7 @@
+    * use default of ~/.siegerc */
+   if(strcmp(my.rc, "") == 0){
+     if((e = getenv("SIEGERC")) != NULL){
+-      snprintf(my.rc, sizeof(my.rc), e);
++      snprintf(my.rc, sizeof(my.rc), "%s", e);
+     } else {
+       snprintf(my.rc, sizeof(my.rc), "%s/.siegerc", getenv("HOME"));
+       if (stat(my.rc, &buf) < 0 && errno == ENOENT) {

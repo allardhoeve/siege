@@ -6,3 +6,4 @@ update_doc_about_urls_file.diff
 set_verbose_to_false.diff
 update_doc_about_log_file.diff
 setup.h.diff
+format_strings.diff
