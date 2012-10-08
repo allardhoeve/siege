@@ -1,7 +1,7 @@
 siege (2.70-4) unstable; urgency=low
 
   * Enable hardened build flags using the hardening-wrapper
-    (Closes: #689965)
+    (Closes: #689965):
     - debian/rules Enable the hardening-wrapper.
     - debian/control Build-Depend on hardening-wrapper.
   * debian/control New maintainer address. Thanks to Patrick Matthäi for
