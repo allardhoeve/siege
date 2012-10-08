@@ -1,10 +1,9 @@
 Description: This patch adds string literals
  to format strings in the snprintf function. This is required by
  -Werror=format-security to avoid format string attacks. This pacth
- was added in order to be able to use security hardening build
- flags via dpkg-buildflags.
-Author: Josue Abarca <jmaslibre@debian.org>
-Forwarded: no
+ was backported from siege beta in order to be able to use security
+ hardening build flags.
+Origin: upstream, http://www.joedog.org/pub/siege/beta/siege-beta.tar.gz
 Last-Update: 2012-10-07
 --- a/src/init.c
 +++ b/src/init.c
