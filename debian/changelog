@@ -1,4 +1,4 @@
-siege (2.70-4) URELEASED; urgency=low
+siege (2.70-4) unstable; urgency=low
 
   * Enable hardened build flags using the hardening-wrapper
     (Closes: #689965)
