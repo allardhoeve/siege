@@ -1,3 +1,9 @@
+siege (2.70-5) experimental; urgency=low
+
+  * debian/watch file updated, thanks to Dmitry Smirnov.
+
+ -- Josue Abarca <jmaslibre@debian.org>  Wed, 10 Oct 2012 06:53:27 -0600
+
 siege (2.70-4) unstable; urgency=low
 
   * Enable hardened build flags using the hardening-wrapper
