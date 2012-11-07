@@ -1,3 +1,13 @@
+siege (2.72-1.1) experimental; urgency=low
+
+  * Non-maintainer upload.
+  * New upstream version
+    - fix urls.txt lookup
+    - override Host header with -H
+  * Obsoletes three of our patches.
+
+ -- Allard Hoeve <allard@byte.nl>  Wed, 07 Nov 2012 18:08:04 +0100
+
 siege (2.70-5) experimental; urgency=low
 
   * debian/watch file updated, thanks to Dmitry Smirnov.

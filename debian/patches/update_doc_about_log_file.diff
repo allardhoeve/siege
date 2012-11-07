@@ -6,8 +6,10 @@ Bug-Debian: http://bugs.debian.org/610426
 Forwarded: not-needed
 Last-Update: 2011-06-30
 
---- a/doc/siege.1.in
-+++ b/doc/siege.1.in
+Index: siege/doc/siege.1.in
+===================================================================
+--- siege.orig/doc/siege.1.in	2012-11-07 18:06:54.000000000 +0100
++++ siege/doc/siege.1.in	2012-11-07 18:06:55.000000000 +0100
 @@ -66,7 +66,7 @@
  TIME, allows you to run the test for a selected period of time.  The format is "NUMm", where NUM is a time unit and the "m" modifier is either S, M, or H for seconds, minutes and hours.  To run siege for an hour, you could select any one of the following combinations: \-t3600S, \-t60M, \-t1H.  The modifier is not case sensitive, but it does require no space between the number and itself.
  .TP
@@ -17,8 +19,10 @@ Last-Update: 2011-06-30
  .TP
  \fB\-m MESSAGE\fR, \fB\-\-mark=MESSAGE\fR
  MARK, mark the log file with a separator.  This option will allow you to separate your log file entries with header information.  This is especially useful when testing two different servers.  It is not necessary to use both the \-m option and the \-l option.  \-m assumes \-l so it marks and logs the transaction. If the MESSAGE has spaces in it, make sure that you put it in quotes.
---- a/doc/siegerc.in
-+++ b/doc/siegerc.in
+Index: siege/doc/siegerc.in
+===================================================================
+--- siege.orig/doc/siegerc.in	2012-11-07 18:06:48.000000000 +0100
++++ siege/doc/siegerc.in	2012-11-07 18:06:55.000000000 +0100
 @@ -13,7 +13,7 @@
  # proxy-host = ${PROXY} 
  # You can also reference ENVIRONMENT variables without
@@ -28,7 +32,7 @@ Last-Update: 2011-06-30
  
  #
  # Signify verbose mode, true turns on verbose output
-@@ -61,7 +61,7 @@
+@@ -70,7 +70,7 @@
  logging = true
  
  #
@@ -37,9 +41,11 @@ Last-Update: 2011-06-30
  # This directive allows you to choose an alternative log file.
  # Environment variables may be used as shown in the examples:
  # ex: logfile = /home/jeff/var/log/siege.log
---- a/src/main.c
-+++ b/src/main.c
-@@ -139,7 +139,7 @@
+Index: siege/src/main.c
+===================================================================
+--- siege.orig/src/main.c	2012-11-07 18:06:48.000000000 +0100
++++ siege/src/main.c	2012-11-07 18:06:55.000000000 +0100
+@@ -140,7 +140,7 @@
    puts("  -f, --file=FILE         FILE, select a specific URLS FILE." );
    printf("  -R, --rc=FILE           RC, specify an %src file\n",program_name);
    puts("  -l, --log[=FILE]        LOG to FILE. If FILE is not specified, the");
