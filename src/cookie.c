@@ -1,7 +1,7 @@
 /**
  * Cookies Support
  *
- * Copyright (C) 2000-2009 by
+ * Copyright (C) 2000-2010 by
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * Copyright (C) 2002 the University of Kansas
  * This file is distributed as part of Siege 
@@ -80,7 +80,7 @@ parse_cookie(char *cookiestr, PARSED_COOKIE* ck)
   ck->expires = 0;
   ck->expires = ~ck->expires;
   if(ck->expires < 0){
-    ck->expires = ~(1 << ((sizeof(ck->expires) * 8) - 1));
+    ck->expires = ~(1UL << ((sizeof(ck->expires) * 8) - 1));
   }
   if(ck->expires < 0){
     ck->expires = (ck->expires >> 1) * -1;

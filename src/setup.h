@@ -160,6 +160,7 @@ struct CONFIG
   int     timeout;      /* socket connection timeout value, def:10 */
   BOOLEAN bench;        /* signifies a benchmarking run, no delay  */
   BOOLEAN internet;     /* use random URL selection if TRUE        */
+  BOOLEAN timestamp;    /* timestamp the output                    */
   int     time;         /* length of the siege in hrs, mins, secs  */
   int     secs;         /* time value for the lenght of the siege  */
   int     reps;         /* reps to run the test, default infinite  */ 

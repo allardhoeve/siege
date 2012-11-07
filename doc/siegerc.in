@@ -19,7 +19,7 @@
 # Signify verbose mode, true turns on verbose output
 # ex: verbose = true|false
 #
-verbose = true
+verbose = false
 
 #
 # CSV Verbose format: with this option, you can choose 
@@ -30,6 +30,15 @@ verbose = true
 # ex: csv = true|false (default false)
 #
 # csv = true
+
+#
+# Timestamp format: with this option, you can choose to
+# print a timestamp each line of output
+# example: timestamp = true|false (default false)
+#
+# sample: [Sat, 2010-11-20 10:39:13] HTTP/1.1 200   0.12 secs:    4003 bytes ==> / 
+# 
+# timestamp = true
 
 #
 # Full URL verbose format: By default siege displays

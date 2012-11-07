@@ -34,7 +34,7 @@
 #include <errno.h>
 #include <notify.h>
 
-#define BUFSIZE 4096
+#define BUFSIZE 40000
 
 #define RESET      0
 #define BRIGHT     1
@@ -77,8 +77,8 @@ CLOSELOG(void)
 static void
 __message(METHOD M, LEVEL L, const char *fmt, va_list ap)
 {
-  char   buf[BUFSIZE/2];
-  char   msg[BUFSIZE];
+  char   buf[BUFSIZE];
+  char   msg[BUFSIZE+1024];
   LEVEL  level = WARNING;
   char   pmode[64];
   char   lmode[64];
@@ -152,8 +152,8 @@ NOTIFY(LEVEL L, const char *fmt, ...)
 void
 __display(int color, const char *fmt, va_list ap) 
 {
-  char   buf[BUFSIZE/2];
-  char   msg[BUFSIZE];
+  char   buf[BUFSIZE];
+  char   msg[BUFSIZE+1024];
 
   vsprintf(buf, fmt, ap);
   snprintf(msg, sizeof msg, "%c[%d;%dm%s%c[%dm\n", 0x1B, RESET, color+30, buf, 0x1B, RESET);
