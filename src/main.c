@@ -1,7 +1,7 @@
 /**
  * Siege, http regression tester / benchmark utility
  *
- * Copyright (C) 2000-2010 by  
+ * Copyright (C) 2000-2012 by  
  * Jeffrey Fulmer - <jeff@joedog.org>, et al. 
  * This file is distributed as part of Siege
  *
@@ -74,7 +74,8 @@ static struct option long_options[] =
   { "rc",         required_argument, NULL, 'R' }, 
   { "mark",       required_argument, NULL, 'm' },
   { "header",     required_argument, NULL, 'H' },
-  { "user-agent", required_argument, NULL, 'A' }
+  { "user-agent", required_argument, NULL, 'A' },
+  {0, 0, 0, 0} 
 };
 
 /**
@@ -529,7 +530,7 @@ main(int argc, char *argv[])
     fprintf(stderr, "%s aborted due to excessive socket failure; you\n", program_name);
     fprintf(stderr, "can change the failure threshold in $HOME/.%src\n", program_name);
   }
-  fprintf(stderr, "\bTransactions:\t\t%12u hits\n",        data_get_count(D));
+  fprintf(stderr, "\nTransactions:\t\t%12u hits\n",        data_get_count(D));
   fprintf(stderr, "Availability:\t\t%12.2f %%\n",          data_get_count(D)==0 ? 0 :
                                                            (double)data_get_count(D) /
                                                            (data_get_count(D)+my.failed)

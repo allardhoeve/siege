@@ -74,6 +74,7 @@ init_config( void )
   my.proxy.required = FALSE;
   my.proxy.port     = 80; 
   my.timeout        = 30;
+  my.timestamp      = FALSE;
   my.chunked        = FALSE;
   my.extra[0]       = 0;
   my.follow         = TRUE;
@@ -99,8 +100,10 @@ init_config( void )
   }
   
   if(strlen(my.file) < 1){ 
-    strcpy( my.file, SIEGE_HOME );
-    strcat( my.file, "/etc/urls.txt" );
+    snprintf(
+      my.file, sizeof( my.file ),
+      "%s", URL_FILE
+    );
   }
 
   if(strlen(my.uagent) < 1) 
@@ -169,6 +172,8 @@ show_config( int EXIT )
   printf( "logging:                        %s\n", my.logging?"true":"false" );
   printf( "log file:                       %s\n", my.logfile==NULL?LOG_FILE:my.logfile );
   printf( "resource file:                  %s\n", my.rc);
+  printf( "timestamped output:             %s\n", my.timestamp?"true":"false");
+  printf( "comma separated output:         %s\n", my.csv?"true":"false");
   printf( "allow redirects:                %s\n", my.follow?"true":"false" );
   printf( "allow zero byte data:           %s\n", my.zero_ok?"true":"false" ); 
   printf( "allow chunked encoding:         %s\n", my.chunked?"true":"false" ); 
@@ -330,6 +335,12 @@ load_conf(char *filename)
       } else {
         my.timeout = 15;
       }
+    }
+    else if(strmatch(option, "timestamp")){
+      if(!strncasecmp(value, "true", 4)) 
+        my.timestamp = TRUE;
+      else
+        my.timestamp = FALSE;
     }
     else if(strmatch(option, "internet")){
       if(!strncasecmp(value, "true", 4))

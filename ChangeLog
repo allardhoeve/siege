@@ -1,6 +1,63 @@
 To email a contributor remove "DELETE" from the email address.
 (The DELETEs are necessary as this list is published online.)
 
+2012/01/02 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE RELEASE *        RELEASE_2-72_FEB-15-2012
+
+2012/02/10 Josue Abarca <jmaslibre@NOdebianSPAM.org.gt>
+ * SIEGE BETA RELEASE     RELEASE_2-72b1_Feb-10-2012
+ * src/version.c          Routine increment 2.72b1
+ * src/init.c             Assinged configure generated constant to 
+                          the urls.txt file so siege can actually 
+                          find it. 
+
+2012/01/02 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE RELEASE *        RELEASE_2-71_FEB-01-2012
+
+2012/30/01 Josue Abarca <jmaslibre@NOdebianSPAM.org.gt>
+ * SIEGE BETA RELEASE     RELEASE_2-71b7_Jan-30-2012
+ * aclocal.m4             Addressed warnings raised by aclocal-1.9
+ * doc/siegerc.in         Changed verbose default to false
+
+2011/03/10 Jason Yan <tailofthesun@NOSPAMgmail.com>
+ * SIEGE BETA RELEASE     RELEASE_2-71b6_MAR-10-2011
+ * src/http.c             Dynamic Host headers in _get and _post
+ * src/util.c             strnlen and strncasestr for folks who lack them
+ * src/util.h             prototypes for strnlen and strncasestr
+
+2011/01/25 "Brian Borowski" <brian_borowski@NOSPAMyahoo.com>
+ * SIEGE BETA RELEASE     RELEASE_2-71b5_JAN-25-2011
+ * lib/notify.c           synchronized memory allotment in message and display
+
+2011/01/24 "Brian Borowski" <brian_borowski@NOSPAMyahoo.com>
+ * SIEGE BETA RELEASE     RELEASE_2-71b4_JAN-23-2011
+ * lib/notify.c           increased BUFSIZE to match eval.h
+
+2010/12/01 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-71b3_DEC-01-2010
+
+2010/11/30 Christof Damian <christof@NOSPAMdamian.net>
+ * src/main.c             terminated the long options
+ * src/version.c          increment to 2.71b3
+
+2010/11/22 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-71b2_NOV-22-2010
+
+2010/11/20 Jamie Couture <jamie.couture@NOSPAMgmail.com>
+ * src/main.c             Fixed a problem in which the T in Transaction is chomped
+ * src/date.c             Added char * timestamp() function
+ * src/client.c           Added class to timestamp for stamped output
+ * src/setup.h            Added boolean timestamp to my structure
+ * src/init.c             Added timestamp=yes|no to .siegerc parser
+
+2010/08/20 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * SIEGE BETA RELEASE     RELEASE_2-71b1_AUG-20-2010
+
+2010/08/20 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
+ * src/cookie.c           On line 83, changed 1 to 1UL - bug was 
+                          discovered by Toby Matejovsky on MacOS
+ * src/version.c          Increment to 2.71b1
+
 2010/07/16 Jeffrey Fulmer <http://www.joedog.org/JoeDog/Contact>
  * SIEGE RELEASE          RELEASE_2-70_JUL-16-2010
 

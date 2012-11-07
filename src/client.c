@@ -30,6 +30,7 @@
 #include <util.h>
 #include <auth.h>
 #include <cookie.h>
+#include <date.h>
 #include <joedog/boolean.h>
 #include <joedog/defs.h>
 
@@ -360,30 +361,32 @@ http_request(CONN *C, URL *U, CLIENT *client)
    * verbose output, print statistics to stdout
    */
   if ((my.verbose && !my.get) && (!my.debug)) {
-    int color = __select_color(head->code);
+    int  color     = __select_color(head->code);
+    char *time_str = (my.timestamp==TRUE)?timestamp():"";
     if (my.csv) {
       if (my.display)
-        DISPLAY(color, "%s%s%4d,%s,%d,%6.2f,%7lu,%s,%d,%s",
-        (my.mark)?my.markstr:"", (my.mark)?",":"", client->id, head->head, head->code, 
+        DISPLAY(color, "%s%s%s%4d,%s,%d,%6.2f,%7lu,%s,%d,%s",
+        time_str, (my.mark)?my.markstr:"", (my.mark)?",":"", client->id, head->head, head->code, 
         etime, bytes, (my.fullurl)?U->url:U->pathname, U->urlid, fmtime
       );
       else
-        DISPLAY(color, "%s%s%s,%d,%6.2f,%7lu,%s,%d,%s",
-          (my.mark)?my.markstr:"", (my.mark)?",":"", head->head, head->code, 
+        DISPLAY(color, "%s%s%s%s,%d,%6.2f,%7lu,%s,%d,%s",
+          time_str, (my.mark)?my.markstr:"", (my.mark)?",":"", head->head, head->code, 
           etime, bytes, (my.fullurl)?U->url:U->pathname, U->urlid, fmtime
         );
     } else {
       if (my.display)
         DISPLAY(
-          color, "%4d: %s %d %6.2f secs: %7lu bytes ==> %s", client->id,
-          head->head, head->code, etime, bytes, (my.fullurl)?U->url:U->pathname
+          color, "%s%4d: %s %d %6.2f secs: %7lu bytes ==> %s", client->id,
+          time_str, head->head, head->code, etime, bytes, (my.fullurl)?U->url:U->pathname
         ); 
       else
         DISPLAY ( 
-          color, "%s %d %6.2f secs: %7lu bytes ==> %s", 
-          head->head, head->code, etime, bytes, (my.fullurl)?U->url:U->pathname
+          color, "%s%s %d %6.2f secs: %7lu bytes ==> %s", 
+          time_str, head->head, head->code, etime, bytes, (my.fullurl)?U->url:U->pathname
         );
     } /* else not my.csv */
+    if (my.timestamp) xfree(time_str);
   }
 
   /**
