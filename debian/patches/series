@@ -4,3 +4,4 @@ update_doc_about_urls_file.diff
 update_doc_about_log_file.diff
 setup.h.diff
 format_strings.diff
+print_host_and_port_on_connect_failure.diff

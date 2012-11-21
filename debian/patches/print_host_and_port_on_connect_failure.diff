@@ -1,0 +1,22 @@
+Index: siege/src/sock.c
+===================================================================
+--- siege.orig/src/sock.c	2012-11-21 17:07:54.837314630 +0100
++++ siege/src/sock.c	2012-11-21 17:08:51.445314488 +0100
+@@ -80,6 +80,7 @@
+   int herrno;
+   struct sockaddr_in cli; 
+   struct hostent     *hp;
++  char   hostname[INET_ADDRSTRLEN];
+   char   hn[512];
+   int    port;
+ #if defined(_AIX)
+@@ -219,7 +220,8 @@
+        */
+       res = connect(C->sock, (struct sockaddr *)&cli, sizeof(struct sockaddr_in)); 
+       if((res < 0)&&(errno != EISCONN)){
+-        NOTIFY(ERROR, "socket: unable to connect %s:%d", __FILE__, __LINE__);
++        inet_ntop(AF_INET, &(cli.sin_addr), hostname, INET_ADDRSTRLEN);
++        NOTIFY(ERROR, "socket: unable to connect to %s:%d (%s:%d)", hostname, ntohs(cli.sin_port), __FILE__, __LINE__);
+         socket_close(C);
+         return -1; 
+       }
